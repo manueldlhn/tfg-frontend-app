@@ -5,9 +5,10 @@ import colors from '../config/colors';
 import Icon from '../components/Icon';
 import Text from '../components/Text';
 import Screen from '../components/Screen';
+import Button from '../components/Button';
+import routes from '../navigation/routes';
 
-
-function UserDetailsScreen({ route }) {
+function UserDetailsScreen({ route, navigation }) {
     const user = route.params;
     return (
         <Screen style={{backgroundColor: colors.lightprimary, flex: 1}}>
@@ -16,7 +17,7 @@ function UserDetailsScreen({ route }) {
                     <Icon 
                         name={user.Rol == "Especialista" ? "account-tie" : "account"} 
                         size={45}
-                        iconColor={user.Enabled ? colors.secondary : colors.grey} 
+                        iconColor={user.Enabled ? (user.Rol=="Especialista" ? colors.primary : colors.secondary ) : colors.grey} 
                         backgroundColor={user.Enabled ? colors.lightgreen: colors.lightgrey}
                     />
                 </View>
@@ -34,6 +35,40 @@ function UserDetailsScreen({ route }) {
                     <Text>
                         {"El usuario está "+(user.Enabled?"activo.":"inactivo.")}
                     </Text>
+                    { user.Rol == "Usuario" &&
+                    <View>
+                        <View style={[styles.button, styles.routinesButton]}>
+                            <Button 
+                                title="Rutinas"
+                                onPress={() => navigation.navigate(routes.USER_PRESCRIPTIONS, {email: user.Email, type: "Rutina"})}
+                                color="white"
+                                fontColor="primary"
+                                borderColor="primary"
+                                borderWidth={3}
+                            />
+                        </View>
+                        <View style={[styles.button, styles.workoutsButton]}>
+                            <Button 
+                                title="Ejercicios"
+                                onPress={() => navigation.navigate(routes.USER_PRESCRIPTIONS, {email: user.Email, type:"Ejercicio"})}
+                                color="white"
+                                fontColor="secondary"
+                                borderColor="secondary"
+                                borderWidth={3}
+                            />
+                        </View>
+                        <View style={[styles.button, styles.recordButton]}>
+                            <Button 
+                                title="Historial"
+                                onPress={() => console.log("Ver Historial")}
+                                color="lightgrey"
+                                fontColor="darkred"
+                                borderColor="darkred"
+                                borderWidth={3}
+                            />
+                        </View>
+                    </View>
+                    }
                 </View>
             </View>
         </Screen>
@@ -65,6 +100,26 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 20,
         marginTop: 15
+    },
+    button: {
+        width: "45%",
+        height: 30,
+        marginTop: 50,
+        margin: 10,
+        position: "absolute",
+    },
+    routinesButton: {
+        left: 0,
+        top: 0,
+    },
+    workoutsButton: {
+        right: 0,
+        top: 0,
+    },
+    recordButton: {
+        top: 100,
+        alignSelf: "center",
+        width: "60%"
     },
 
 })

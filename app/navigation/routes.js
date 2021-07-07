@@ -8,9 +8,11 @@ export default Object.freeze({
     MY_DETAILS: 'MyDetails',
     PRESCRIBE_TO_USER: "PrescribeToUser",
     PRESCRIPTION_TYPES: "PrescriptionTypes",
+    PRESCRIPTION_DETAILS: "PrescriptionDetails",
     ASSOCIATE: "Associate",
     ROUTINE_DETAILS: 'RoutineDetails',
     USER_DETAILS: 'UserDetails',
+    USER_PRESCRIPTIONS: "ListingUserPrescriptions",
     WORKOUT_DETAILS: 'WorkoutDetails',
     WELCOME: 'Welcome',
 

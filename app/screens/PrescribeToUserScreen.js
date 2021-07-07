@@ -16,23 +16,35 @@ const validationSchema = Yup.object().shape({
 
 
 function PrescribeToUserScreen({ route, navigation }){
-    const what = route.params;
+    const {what, data={}, onPopTwo=() => console.log("Nada")} = route.params;
     
     const handleSubmit = async (values) => {
         var prescription = {
             usuario_email: values.usuario_email, 
         };
         prescription[what+"_id"] = parseInt(values.id);
+        prescription.Comentarios = values.Comentarios;
 
-        const result = await (what == "ejercicio" ? prescriptionsApi.prescribe_UW(prescription) : prescriptionsApi.prescribe_UR(prescription) );
+        const result = await (
+                                what == "ejercicio" 
+                                ? 
+                                (
+                                    "Comentarios" in data ? prescriptionsApi.updateWorkoutFromUser(prescription) : prescriptionsApi.prescribe_UW(prescription) 
+                                ):( 
+                                    "Comentarios" in data ? prescriptionsApi.updateRoutineFromUser(prescription) : prescriptionsApi.prescribe_UR(prescription) 
+                                )
+                            );
 
         if(!result.ok)
-            return alert("Ha habido un error al realizar la prescripción. Por favor compruebe que los datos son correctos.");
-        alert("Prescripción realizada con éxito");
-        navigation.reset({
-            index: 0,
-            routes: [{name: routes.PRESCRIPTION_TYPES}]
-        });
+            return alert("Ha habido un error al subir la prescripción. Por favor compruebe que los datos son correctos.");
+        alert("Prescripción implementada con éxito");
+        
+        if("Comentarios" in data){
+            onPopTwo();
+            navigation.pop(2)
+        } else {
+            navigation.goBack();
+        }
     };
 
     return (
@@ -40,9 +52,9 @@ function PrescribeToUserScreen({ route, navigation }){
             <ScrollView>
                 <Form
                     initialValues={{
-                        usuario_email: "",
-                        id: "",
-                        Comentarios: "",
+                        usuario_email: data.usuario_email ? data.usuario_email : "",
+                        id: data[what+"_id"] ? data[what+"_id"].toString() : "",
+                        Comentarios: data.Comentarios ? data.Comentarios : "",
                     }}
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
@@ -53,6 +65,7 @@ function PrescribeToUserScreen({ route, navigation }){
                         autoCapitalize="none"
                         placeholder="Correo Electronico"
                         keyboardType="email-address"
+                        editable={ data.usuario_email ? false : true }
                     />
                     <FormField 
                         name="id"
@@ -60,12 +73,13 @@ function PrescribeToUserScreen({ route, navigation }){
                         autoCapitalize="none"
                         placeholder={"Identificador de "+what}
                         keyboardType="numeric"
+                        editable={ data[what+"_id"] ? false : true }
                     />
                     <FormField 
                         name="Comentarios"
                         autoCorrect={true}
                         autoCapitalize="none"
-                        placeholder="Comentarios del Especialista"
+                        placeholder="Comentarios del Especialista (OPCIONAL)"
                         multiline
                     />
                     <SubmitButton title={"Prescribir "+what} color={"secondary"}/>

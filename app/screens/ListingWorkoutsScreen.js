@@ -36,12 +36,16 @@ function ListingWorkoutsScreen({ route, navigation }) {
   };
 
   const formatAndSetWorkouts = (workouts, data) => {
-    console.log(data);
-
-    data.forEach( entry => {
-        entry.EJERCICIO_ej.Comentarios = entry.Comentarios;
-        workouts.push( entry.EJERCICIO_ej );
-    });
+    if(workouts.length+data.length == 0){
+        alert("Esta rutina no tiene ejercicios asociados.");
+        navigation.goBack();
+    } else {
+        data.forEach( entry => {
+            entry.EJERCICIO_ej.Comentarios = entry.Comentarios;
+            workouts.push( entry.EJERCICIO_ej );
+        }); 
+    }
+    
 
   };
 

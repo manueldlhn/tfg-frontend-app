@@ -6,22 +6,21 @@ import Icon from './Icon';
 import Text from './Text';
 
 
-function UserCard({ Email, Nombre, Enabled, Rol, onPress }) {
+function PrescriptionCard({ type, id, email, Comentarios, onPress }) {
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.card}>
-                <Icon 
-                    name={Rol=="Especialista"? "account-tie" : "account"} 
-                    iconColor={Enabled ? (Rol=="Especialista" ? colors.primary : colors.secondary ) : colors.grey} 
-                    backgroundColor={Enabled ? colors.lightgreen : colors.lightgrey}/>
+                <Icon
+                    name={type == "Rutina" ? "text-box-multiple" : "karate" }
+                    iconColor={colors.gold}
+                    backgroundColor={colors.black}
+                />
                 <View style={styles.info}>
-                    <Text style={styles.name}>{Nombre}</Text>
-                    <Text style={styles.email}>{Email}</Text>
+                    <Text style={styles.id}>{"ID: "+id}</Text>
+                    <Text style={styles.comments} numberOfLines={1}>{"Comentarios: "+ Comentarios==null ? "Ninguno." : Comentarios}</Text>
                 </View>
-                
             </View>
         </TouchableWithoutFeedback>
-            
     );
 }
 
@@ -33,16 +32,16 @@ const styles = StyleSheet.create({
         padding: 20,
         flexDirection: "row",
     },
-    name: {
-        fontWeight: "bold",
-    },
-    email: {
+    comments: {
         color: colors.grey,
     },
-    info: {
-        paddingLeft: 10
+    id: {
+        fontWeight: "bold",
+    },
+    info:{
+        paddingLeft: 10,
+        flex: 1,
     }
-
 })
 
-export default UserCard;
+export default PrescriptionCard;

@@ -53,14 +53,14 @@ function ListingUsersScreen({ navigation }) {
               onEndReached={handleLoadMore}
               onEndReachedThreshold={0.1}
               renderItem={({item}) =>
-              <UserCard
-                  Email={item.Email}
-                  Nombre={item.Nombre}
-                  Enabled={item.Enabled}
-                  Rol={item.Rol}
-                  onPress = { () => navigation.navigate(routes.USER_DETAILS, item)}
-              />
-          }
+                <UserCard
+                    Email={item.Email}
+                    Nombre={item.Nombre}
+                    Enabled={item.Enabled}
+                    Rol={item.Rol}
+                    onPress = { () => navigation.navigate(routes.USER_DETAILS, item)}
+                />
+              }
           />
       </Screen>
   );

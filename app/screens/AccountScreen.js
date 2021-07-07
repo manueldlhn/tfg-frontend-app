@@ -31,9 +31,9 @@ function AccountScreen({ navigation }) {
                 <View style={styles.item}>
                     <ListItem 
                         IconComponent={<Icon name="arm-flex" backgroundColor={colors.secondary} />}
-                        title="Prescripciones y asociaciones"
-                        subTitle="Ver todas las asociaciones realizadas"
-                        onPress={() => console.log("Ir a asociaciones")}
+                        title="Asociaciones"
+                        subTitle="Ver Asociaciones de Ejercicios a Rutinas."
+                        onPress={() => navigation.navigate(routes.LISTING_ASSOCIATIONS, user)}
                     />
                     <ListItemSeparator />
                 </View>
