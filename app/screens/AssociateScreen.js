@@ -15,21 +15,28 @@ const validationSchema = Yup.object().shape({
 });
 
 function AssociateScreen({ route, navigation }) {
-    const email = route.params;
+    const {email, item={}, onPopTwo = () => 0} = route.params;
 
-    const handleSubmit = async (association) => {
-        association.EJERCICIO_ej_id = parseInt(association.EJERCICIO_ej_id);
-        association.RUTINA_rut_id = parseInt(association.RUTINA_rut_id);
+    const handleSubmit = async (values) => {
 
-        const result = await(prescriptionsApi.prescribe_WR(association));
+        var association = { USUARIOS_Email : values.USUARIOS_Email };
+
+        association.EJERCICIO_ej_id = parseInt(values.EJERCICIO_ej_id);
+        association.RUTINA_rut_id = parseInt(values.RUTINA_rut_id);
+        association.Comentarios = values.Comentarios;
+
+        const result = await( item.Comentarios !== undefined ? prescriptionsApi.updateWorkoutFromRoutine(association) :  prescriptionsApi.prescribe_WR(association));
 
         if(!result.ok)
             return alert("Ha habido un error al realizar la asociación. Por favor compruebe los datos que ha proporcionado");
         alert("Asociación exitosa");
-        navigation.reset({
-            index: 0,
-            routes: [{name: routes.PRESCRIPTION_TYPES}]
-        });
+
+        if("Comentarios" in item){
+            onPopTwo();
+            navigation.pop(2);
+        } else {
+            navigation.goBack();
+        }
     };
 
     return (
@@ -37,10 +44,10 @@ function AssociateScreen({ route, navigation }) {
             <ScrollView>
                 <Form 
                     initialValues={{
-                        EJERCICIO_ej_id: "",
-                        RUTINA_rut_id: "",
+                        EJERCICIO_ej_id: item.EJERCICIO_ej_id ? item.EJERCICIO_ej_id.toString() : "",
+                        RUTINA_rut_id: item.RUTINA_rut_id ? item.RUTINA_rut_id.toString() :"",
                         USUARIOS_Email: email,
-                        Comentarios: "",
+                        Comentarios: item.Comentarios !== undefined ? item.Comentarios : "",
                     }}
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
@@ -51,6 +58,7 @@ function AssociateScreen({ route, navigation }) {
                         autoCapitalize="none"
                         placeholder={"Identificador de ejercicio"}
                         keyboardType="numeric"
+                        editable = { item.Comentarios !== undefined ? false : true }
                     />
                     <FormField 
                         name="RUTINA_rut_id"
@@ -58,6 +66,7 @@ function AssociateScreen({ route, navigation }) {
                         autoCapitalize="none"
                         placeholder={"Identificador de rutina"}
                         keyboardType="numeric"
+                        editable = { item.Comentarios !== undefined ? false : true }
                     />
                     <FormField 
                         name="USUARIOS_Email"
@@ -65,7 +74,7 @@ function AssociateScreen({ route, navigation }) {
                         autoCapitalize="none"
                         placeholder="Correo Electronico"
                         keyboardType="email-address"
-                        editable={false}
+                        editable={ false }
                     />
                     <FormField 
                         name="Comentarios"
@@ -75,7 +84,7 @@ function AssociateScreen({ route, navigation }) {
                         multiline
                     />
 
-                    <SubmitButton title={"Asociar"} color={"secondary"}/>
+                    <SubmitButton title={item.Comentarios !== undefined ? "Actualizar" : "Asociar"} color={"secondary"}/>
                 </Form>
             </ScrollView>
         </Screen>

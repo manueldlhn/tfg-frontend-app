@@ -38,7 +38,7 @@ function PrescriptionTypesScreen({ navigation }) {
                         IconComponent={<Icon name="text-box-plus" backgroundColor={"olivedrab"}/>}
                         title="Asociar Ejercicio a Rutina"
                         subTitle="Incorpora un ejercicio a una rutina."
-                        onPress={() => navigation.navigate(routes.ASSOCIATE, user.Email)}
+                        onPress={() => navigation.navigate(routes.ASSOCIATE, {email: user.Email})}
                     />
                     <ListItemSeparator />
             </View>

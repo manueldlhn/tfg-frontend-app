@@ -8,44 +8,46 @@ import routes from '../navigation/routes';
 import prescriptionsApi from '../api/prescriptions';
 import Screen from '../components/Screen';
 
-function PrescriptionDetailsScreen({route, navigation}) {
-    const { type, item, onGoBack } = route.params;
-
-    const handleDelete = (id, email) => {
+function AssociationDetailsScreen({route, navigation}) {
+    const { association, email, onGoBack } = route.params;
+    console.log(association);
+    const handleDelete = (EJERCICIO_ej_id, RUTINA_rut_id ) => {
         
-        const proceedDeletion = async (id, email) => {
-            const result = type=="Rutina" ? await prescriptionsApi.deleteRoutineFromUser(id,email) : await prescriptionsApi.deleteWorkoutFromUser(id, email);
+        const proceedDeletion = async (EJERCICIO_ej_id, RUTINA_rut_id) => {
+            const result = await prescriptionsApi.deleteWorkoutFromRoutine(EJERCICIO_ej_id, RUTINA_rut_id);
             if(!result.ok)
                 return alert(result.data.message);
             alert(result.data.message);
             onGoBack();
-            navigation.goBack();        
+            navigation.goBack();
         };
 
         Alert.alert(
             "Confirmación",
-            "¿Seguro que desea borrar este registro?",
+            "¿Seguro que desea borrar esta asociación?",
             [
                 {
-                    text:"No",
+                    text: "No",
                 },
                 {
-                    text:"Sí",
-                    onPress: () => {proceedDeletion(id,email)},
+                    text: "Sí",
+                    onPress: () => { proceedDeletion(EJERCICIO_ej_id, RUTINA_rut_id) },
                 }
             ]
         );
     };
     
+    
+    
     return (
         <Screen style={{backgroundColor: colors.lightprimary, flex: 1}}>
             <View style={styles.container}>
-                <Text style={styles.id}>{"ID de "+type+": "+ (type=="Rutina" ? item.rutina_id : item.ejercicio_id) }</Text>
-                <Text style={styles.email}>{"Usuario: "+item.usuario_email}</Text>
-                <Text style={styles.comments}>{"Comentarios del Especialista:\n\n"+ (item.Comentarios == null ? "Ninguno" : item.Comentarios) }</Text>
+                <Text style={styles.id}>{"Asociación Ej."+association.EJERCICIO_ej_id+" - Rut."+association.RUTINA_rut_id}</Text>
+                <Text style={styles.email}>{"Especialista: "+association.USUARIOS_Email}</Text>
+                <Text style={styles.comments}>{"Comentarios del Especialista:\n\n"+association.Comentarios}</Text>
             </View>
             <View style={styles.buttons}>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate(routes.PRESCRIBE_TO_USER, {what: type.toLowerCase(), data: item, onPopTwo: () => onGoBack()})}>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate(routes.ASSOCIATE, {email: email, item: association, onPopTwo: () => onGoBack() })}>
                     <View style={styles.button}>
                         <Icon 
                             name="pencil"
@@ -55,7 +57,7 @@ function PrescriptionDetailsScreen({route, navigation}) {
                         />
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => handleDelete( (type=="Rutina"? item.rutina_id : item.ejercicio_id), item.usuario_email )}>
+                <TouchableWithoutFeedback onPress={() => handleDelete( association.EJERCICIO_ej_id, association.RUTINA_rut_id )}>
                     <View style={styles.button}>
                         <Icon 
                             name="delete"
@@ -64,7 +66,7 @@ function PrescriptionDetailsScreen({route, navigation}) {
                             iconColor={colors.white}
                         />
                     </View>
-                </TouchableWithoutFeedback>  
+                </TouchableWithoutFeedback>
             </View>
         </Screen>
     );
@@ -99,6 +101,7 @@ const styles = StyleSheet.create({
     button: {
         padding: 10,
     }
+
 })
 
-export default PrescriptionDetailsScreen;
+export default AssociationDetailsScreen;
