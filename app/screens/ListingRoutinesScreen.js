@@ -8,6 +8,7 @@ import routes from '../navigation/routes';
 import routinesApi from '../api/routines';
 import AddButton from '../components/AddButton';
 import useAuth from '../auth/useAuth';
+import prescriptionsApi from '../api/prescriptions';
 
 
 function ListingRoutinesScreen({ navigation }) {
@@ -23,7 +24,9 @@ function ListingRoutinesScreen({ navigation }) {
     }, [])
     
     const loadRoutines = async () => {
-        const response = await routinesApi.getRoutines(offset);
+        
+        const response = user.Rol == "Especialista" ? await routinesApi.getRoutines(offset) : await prescriptionsApi.getRoutinesFromUser(user.Email, offset);
+        
         setRoutines(routines => routines.concat(response.data));
         setOffset(offset => offset + response.data.length);
     }

@@ -28,8 +28,12 @@ function ListingWorkoutsScreen({ route, navigation }) {
     
   const loadWorkouts = async () => {
     
-    const response = allWorkouts ? await workoutsApi.getWorkouts(offset) : await prescriptionsApi.getWorkoutsFromRoutine(route.params.rut_id, offset);
-
+    const response = allWorkouts ? 
+                        (
+                            user.Rol == "Especialista" ? await workoutsApi.getWorkouts(offset) : await prescriptionsApi.getWorkoutsFromUser(user.Email, offset)
+                        ) : ( 
+                            await prescriptionsApi.getWorkoutsFromRoutine(route.params.rut_id, offset)
+                        );
 
     allWorkouts ? setWorkouts(workouts => workouts.concat(response.data)) : formatAndSetWorkouts(workouts, response.data);
     setOffset(offset => offset + response.data.length);

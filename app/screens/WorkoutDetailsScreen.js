@@ -53,23 +53,11 @@ function WorkoutDetailsScreen({ route, navigation }) {
             <View style={styles.container}>
                 
                 <Text style={styles.title}>{workout.Nombre}</Text>
-                <View style={styles.time}>
-                    <Icon 
-                        name="timer" 
-                        iconColor={colors.secondary}
-                        backgroundColor={colors.white}
-                    />
-                    <Text style={styles.timeText}>{"10'"}</Text>
-                </View>
-                
+                {user.Rol == "Especialista" && <Text style={styles.id}>{"ID:"+workout.ej_id}</Text>} 
                 <Text style={styles.description}>{"Estado de forma: "+workout.Estado_forma}</Text>
                 <Text style={styles.description}>{workout.Descripcion}</Text>
                 {workout.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista: "+workout.Comentarios}</Text>}
-                <View style={styles.miscellaneous}>
-                    <Text style={styles.miscText}>{"Creado por: "+workout.Subtitulo+" - "+workout.RUTINA_USUARIOS_Email}</Text>
-                    {user.Rol == "Especialista" && <Text style={styles.miscText}>{"Identificador del ejercicio: "+workout.ej_id}</Text>}
-                    
-                </View>
+                
                 
             </View>
             {   
@@ -115,6 +103,9 @@ function WorkoutDetailsScreen({ route, navigation }) {
                 </View>
                 )
             }
+            <View style={styles.miscellaneous}>
+                <Text style={styles.miscText}>{"Creado por: "+workout.Subtitulo+" - "+workout.RUTINA_USUARIOS_Email}</Text>
+            </View>
         </Screen>
             
     );
@@ -131,27 +122,24 @@ const styles = StyleSheet.create({
     title: {
         marginBottom: 20,
         fontWeight: "bold",
-        fontSize: 30
-    },
-    time: {
-        position: 'absolute',
-        top: 70,
-        right: 20,
-        width: 80,
-        height: 40,
-        alignSelf: 'flex-end',
-        flexDirection: 'row'
-    },
-    timeText: {
-        fontWeight: 'bold',
         fontSize: 30,
+        width: "70%",
+    },
+    id: {
+        position:"absolute",
+        right: 10,
+        top: 10,
+        fontSize: 25,
+        fontWeight:"bold",
         color: colors.secondary,
     },
     miscellaneous: {
-        marginTop: 35
+        position: "absolute",
+        left: 15,
+        bottom: 25,
     },
     miscText: {
-        color: colors.grey,
+        fontWeight: "bold",
     },
     description: {
         marginTop: 15,

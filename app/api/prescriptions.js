@@ -10,6 +10,7 @@ const prescribe_UW = userWorkout => client.post(endpoint_UW, userWorkout);
 const prescribe_UR = userRoutine => client.post(endpoint_UR, userRoutine);
 
 const getAllAssociations = offset => client.get(endpoint_WR+'/All/?offset='+offset);
+
 const getWorkoutsFromRoutine = (rut_id, offset) => client.get(endpoint_WR+'/Routine/'+rut_id+'/?offset='+offset);
 const getRoutinesFromUser = (email, offset) => client.get(endpoint_UR+'/User/'+email+'/?offset='+offset);
 const getWorkoutsFromUser = (email, offset) => client.get(endpoint_UW+'/User/'+email+'/?offset?'+offset);
@@ -27,13 +28,17 @@ export default {
     prescribe_WR,
     prescribe_UW,
     prescribe_UR,
+
     getAllAssociations,
+
     getWorkoutsFromRoutine,
     getRoutinesFromUser,
     getWorkoutsFromUser,
+
     updateWorkoutFromRoutine,
     updateRoutineFromUser,
     updateWorkoutFromUser,
+
     deleteWorkoutFromRoutine,
     deleteRoutineFromUser,
     deleteWorkoutFromUser,

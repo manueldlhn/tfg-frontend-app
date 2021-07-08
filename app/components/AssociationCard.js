@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     rut_ej: {
-
+        fontWeight: "bold",
     },
     email: {
         color: colors.grey,

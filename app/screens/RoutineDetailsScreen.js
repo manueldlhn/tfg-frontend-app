@@ -51,11 +51,10 @@ function RoutineDetailsScreen({ route, navigation }) {
             <View style={styles.container}>
                 
                 <Text style={styles.name}>{routine.Nombre}</Text>
+                {user.Rol == "Especialista" && <Text style={styles.id}>{"ID:"+routine.rut_id}</Text>}
                 <Text style={styles.description}>{routine.Descripcion}</Text>
-                <View style={styles.miscellaneous}>
-                    <Text style={styles.miscText}>{"Creado por: "+routine.Info_Rutina+" - "+routine.USUARIOS_Email}</Text>
-                    {user.Rol == "Especialista" && <Text style={styles.miscText}>{"Identificador de la rutina: "+routine.rut_id}</Text>}
-                </View>
+                {routine.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista: "+routine.Comentarios}</Text>}
+                
                 
             </View>
             <View style={styles.showWorkoutsButton}>
@@ -98,7 +97,9 @@ function RoutineDetailsScreen({ route, navigation }) {
 
                 </View>
             }
-
+            <View style={styles.miscellaneous}>
+                <Text style={styles.miscText}>{"Creado por: "+routine.Info_Rutina+" - "+routine.USUARIOS_Email}</Text>
+            </View>
 
         </Screen>
         
@@ -116,13 +117,24 @@ const styles = StyleSheet.create({
     name: {
         marginBottom: 20,
         fontWeight: "bold",
-        fontSize: 30
+        fontSize: 30,
+        width: "70%",
+    },
+    id: {
+        position: "absolute",
+        right: 10,
+        top: 10,
+        fontSize: 25,
+        fontWeight: "bold",
+        color: colors.secondary,
     },
     miscellaneous: {
-        marginTop: 15
+        position: "absolute",
+        left: 15,
+        bottom: 25,
     },
     miscText: {
-        color: colors.grey,
+        fontWeight: 'bold',
     },
     description: {
         marginTop: 15,
