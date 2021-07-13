@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 
 import AccountNavigator from './AccountNavigator';
@@ -14,7 +15,13 @@ import WorkoutNavigator from './WorkoutNavigator';
 
 const Tab = createBottomTabNavigator();
 
+const getTabBarVisibility = (route) => {
+    const routeName = getFocusedRouteNameFromRoute(route) ?? '';
 
+    if(routeName == "DoingWorkout")
+        return false;
+    return true;
+}
 
 const AppNavigator = ({user}) => (
     <Tab.Navigator
@@ -42,9 +49,10 @@ const AppNavigator = ({user}) => (
         <Tab.Screen
             name="Rutinas"
             component={RoutineNavigator} 
-            options={{
-                tabBarIcon: ({size, color}) => <MaterialCommunityIcons name="text-box-multiple" size={size} color={color}/>
-            }}
+            options={({route}) => ({
+                tabBarIcon: ({size, color}) => <MaterialCommunityIcons name="text-box-multiple" size={size} color={color}/>,
+                tabBarVisible: getTabBarVisibility(route),
+            })}
         />
         {
             user.Rol == "Especialista"
@@ -58,17 +66,13 @@ const AppNavigator = ({user}) => (
                 }}
             />
         }
-        
-
-        
-
-
         <Tab.Screen
             name="Ejercicios"
             component={WorkoutNavigator}
-            options={{
-                tabBarIcon: ({size, color}) => <MaterialCommunityIcons name="karate" size={size} color={color}/>
-            }}
+            options={({route}) => ({
+                tabBarIcon: ({size, color}) => <MaterialCommunityIcons name="karate" size={size} color={color}/>,
+                tabBarVisible: getTabBarVisibility(route), 
+            }) }
         />
         <Tab.Screen
             name="Yo"

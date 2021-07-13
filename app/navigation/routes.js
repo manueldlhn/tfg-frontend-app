@@ -1,6 +1,7 @@
 export default Object.freeze({
     CREATE_ROUTINE: 'CreateRoutine',
     CREATE_WORKOUT: 'CreateWorkout',
+    DO_WORKOUT: "DoingWorkout",
     LISTING_USERS: 'ListingUsers',
     LISTING_ROUTINES: 'ListingRoutines',
     LISTING_WORKOUTS: 'ListingWorkouts',

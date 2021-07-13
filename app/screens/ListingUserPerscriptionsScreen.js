@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, FlatList, RefreshControl } from 'react-native';
 
 import prescriptionsApi from '../api/prescriptions';
-import PrescriptionCard from '../components/PrescriptionCard';
+import PrescriptionCard from '../components/cards/PrescriptionCard';
 import Screen from '../components/Screen';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
@@ -22,6 +22,8 @@ function ListingUserPerscriptionsScreen({ route, navigation }) {
 
     const loadData = async () => {
         const response = type=="Rutina" ? await prescriptionsApi.getRoutinesFromUser(email, offset) : await prescriptionsApi.getWorkoutsFromUser(email, offset);
+        
+        console.log(response.dta);
         if(data.length + response.data.length == 0){
             alert("Este usuario no tiene "+type+"s entre sus prescripciones.");
             navigation.goBack();

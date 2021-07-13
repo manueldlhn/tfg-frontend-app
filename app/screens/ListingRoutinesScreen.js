@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback }  from 'react';
 import { StyleSheet, FlatList, RefreshControl } from 'react-native';
 
 import Screen from '../components/Screen';
-import RoutineCard from '../components/RoutineCard';
+import RoutineCard from '../components/cards/RoutineCard';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
 import routinesApi from '../api/routines';
@@ -27,6 +27,8 @@ function ListingRoutinesScreen({ navigation }) {
         
         const response = user.Rol == "Especialista" ? await routinesApi.getRoutines(offset) : await prescriptionsApi.getRoutinesFromUser(user.Email, offset);
         
+        console.log(response.data);
+
         setRoutines(routines => routines.concat(response.data));
         setOffset(offset => offset + response.data.length);
     }

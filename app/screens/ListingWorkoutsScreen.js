@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback } from 'react';
 import { StyleSheet, FlatList, RefreshControl } from 'react-native';
 
 import Screen from '../components/Screen';
-import WorkoutCard from '../components/WorkoutCard';
+import WorkoutCard from '../components/cards/WorkoutCard';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
 import workoutsApi from '../api/workouts';
@@ -20,10 +20,10 @@ function ListingWorkoutsScreen({ route, navigation }) {
 
   const allWorkouts = route.params == undefined;
 
-  
 
   useEffect(() => {
       loadWorkouts();
+      !allWorkouts && navigation.setOptions({ title: "Ejercicios de la Rutina "+route.params.rut_id });
   }, []);
     
   const loadWorkouts = async () => {
@@ -68,8 +68,6 @@ function ListingWorkoutsScreen({ route, navigation }) {
   
   return (
     <Screen style={styles.screen}>
-        {// Funciona pero da un bug de warning, si da problemas se elimina
-        !allWorkouts && navigation.setOptions({ title: "Ejercicios de la Rutina "+route.params.rut_id })}
         <FlatList 
             data={workouts}
             refreshControl={ allWorkouts &&

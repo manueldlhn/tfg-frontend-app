@@ -64,7 +64,7 @@ function WorkoutDetailsScreen({ route, navigation }) {
                 user.Rol == "Usuario" ?
                 (
                 <View style={styles.buttons}>
-                    <TouchableWithoutFeedback onPress={() => console.log("Pulsado Play")}>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate(routes.DO_WORKOUT, workout)}>
                         <View style={styles.button}>
                             <Icon 
                                 name="play"

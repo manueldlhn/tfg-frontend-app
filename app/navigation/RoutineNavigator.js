@@ -7,6 +7,7 @@ import CreateRoutineScreen from '../screens/CreateRoutineScreen';
 import colors from '../config/colors';
 import ListingWorkoutsScreen from '../screens/ListingWorkoutsScreen';
 import WorkoutDetailsScreen from '../screens/WorkoutDetailsScreen';
+import DoingWorkoutScreen from '../screens/DoingWorkoutScreen';
 
 
 const Stack = createStackNavigator();
@@ -68,6 +69,13 @@ const RoutineNavigator = () => (
                 headerStyle: { backgroundColor: colors.primary},
                 headerTintColor: colors.white,
                 headerTitleAlign: "center",
+            }}
+        />
+        <Stack.Screen
+            name="DoingWorkout"
+            component={DoingWorkoutScreen}
+            options={{
+                headerShown: false,
             }}
         />
 

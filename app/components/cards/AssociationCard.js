@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
-import colors from '../config/colors';
-import Icon from './Icon';
-import Text from './Text';
+import colors from '../../config/colors';
+import Icon from '../Icon';
+import Text from '../Text';
 
 function AssociationCard({ EJERCICIO_ej_id, RUTINA_rut_id, USUARIOS_Email, onPress }) {
     return (

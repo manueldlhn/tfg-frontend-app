@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
-import colors from '../config/colors';
-import Icon from './Icon';
-import Text from './Text';
+import colors from '../../config/colors';
+import Icon from '../Icon';
+import Text from '../Text';
 
 
 function UserCard({ Email, Nombre, Enabled, Rol, onPress }) {

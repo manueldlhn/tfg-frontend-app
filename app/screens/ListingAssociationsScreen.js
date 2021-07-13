@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, FlatList, RefreshControl } from 'react-native';
 
 import Screen from '../components/Screen';
-import AssociationCard from '../components/AssociationCard';
+import AssociationCard from '../components/cards/AssociationCard';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
 import prescriptionsApi from '../api/prescriptions';
