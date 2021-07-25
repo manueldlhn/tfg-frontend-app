@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import Screen from '../components/Screen';
 import { Form, FormField, SubmitButton } from '../components/forms';
 import prescriptionsApi from '../api/prescriptions';
-import routes from '../navigation/routes';
 
 const validationSchema = Yup.object().shape({
     EJERCICIO_ej_id: Yup.number().required().positive().integer().label("EJERCICIO¨_ej_id"),

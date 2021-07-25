@@ -5,14 +5,14 @@ import colors from '../../config/colors';
 import Icon from '../Icon';
 import Text from '../Text';
 
-function WorkoutCard({ ej_id, Nombre, Subtitulo, Descripcion, Estado_forma, Pub_priv, RUTINA_USUARIOS_Email, onPress }) {
+function WorkoutCard({ ej_id, Nombre, Subtitulo, Descripcion, onPress }) {
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.card}>
                 <Icon 
                     name="dumbbell" 
-                    iconColor={Pub_priv ? colors.secondary : colors.grey} 
-                    backgroundColor={Pub_priv ? colors.lightgreen: colors.lightgrey}/>
+                    iconColor={colors.secondary} 
+                    backgroundColor={colors.lightgreen}/>
                 <View style={styles.info}>
                     <Text style={styles.id}>{"ID: "+ej_id}</Text>
                     <Text style={styles.title}>{Nombre}</Text>

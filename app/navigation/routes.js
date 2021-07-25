@@ -16,7 +16,7 @@ export default Object.freeze({
     ROUTINE_DETAILS: 'RoutineDetails',
     USER_DETAILS: 'UserDetails',
     USER_PRESCRIPTIONS: "ListingUserPrescriptions",
-    WORKOUT_DETAILS: 'WorkoutDetails',
+    WATCH_LIVE: 'WatchingLive',
     WELCOME: 'Welcome',
-
-})
+    WORKOUT_DETAILS: 'WorkoutDetails',
+});

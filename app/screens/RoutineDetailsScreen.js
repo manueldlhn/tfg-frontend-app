@@ -15,11 +15,9 @@ import Button from '../components/Button';
 function RoutineDetailsScreen({ route, navigation }) {
     const routine = route.params;
     const { user } = useAuth();
+
     const handleDelete = (rut_id) => {
-        console.log("Pulsado Delete");
-        
         const proceedDeletion = async (rut_id) => {
-            console.log(rut_id);
             const result = await routinesApi.deleteRoutine(rut_id);
 
             if(!result.ok)
@@ -53,14 +51,14 @@ function RoutineDetailsScreen({ route, navigation }) {
                 <Text style={styles.name}>{routine.Nombre}</Text>
                 {user.Rol == "Especialista" && <Text style={styles.id}>{"ID:"+routine.rut_id}</Text>}
                 <Text style={styles.description}>{routine.Descripcion}</Text>
-                {routine.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista: "+routine.Comentarios}</Text>}
+                {routine.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista "+(routine.especialista_email ? routine.especialista_email: "")+": "+routine.Comentarios}</Text>}
                 
                 
             </View>
             <View style={styles.showWorkoutsButton}>
                 <Button
                     title="Ver Ejercicios"
-                    onPress={() => navigation.navigate(routes.LISTING_WORKOUTS, { rut_id: routine.rut_id })}
+                    onPress={() => navigation.navigate(routes.LISTING_WORKOUTS, { rut_id: routine.rut_id, especialista_email: routine.especialista_email ? routine.especialista_email : null})}
                     color="white"
                     fontColor="secondary"
                     borderWidth={3}

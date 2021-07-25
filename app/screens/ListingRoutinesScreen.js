@@ -26,9 +26,6 @@ function ListingRoutinesScreen({ navigation }) {
     const loadRoutines = async () => {
         
         const response = user.Rol == "Especialista" ? await routinesApi.getRoutines(offset) : await prescriptionsApi.getRoutinesFromUser(user.Email, offset);
-        
-        console.log(response.data);
-
         setRoutines(routines => routines.concat(response.data));
         setOffset(offset => offset + response.data.length);
     }
@@ -63,8 +60,6 @@ function ListingRoutinesScreen({ navigation }) {
                         Nombre={item.Nombre}
                         Descripcion={item.Descripcion}
                         Info_Rutina={item.Info_Rutina}
-                        Pub_priv={item.Pub_priv}
-                        USUARIOS_Email={item.USUARIOS_Email}
                         onPress = { () => navigation.navigate(routes.ROUTINE_DETAILS, item)}
                     />
                 }

@@ -5,15 +5,15 @@ import colors from '../../config/colors';
 import Icon from '../Icon';
 import Text from '../Text';
 
-function RoutineCard({ rut_id, Nombre, Descripcion, Info_Rutina, Pub_priv, USUARIOS_Email, onPress}) {
+function RoutineCard({ rut_id, Nombre, Descripcion, Info_Rutina, onPress}) {
     
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.card}>
                 <Icon 
                     name="weight-lifter" 
-                    iconColor={Pub_priv ? colors.secondary : colors.grey} 
-                    backgroundColor={Pub_priv ? colors.lightgreen: colors.lightgrey}/>
+                    iconColor={colors.secondary} 
+                    backgroundColor={colors.lightgreen}/>
                 <View style={styles.info}>
                     <Text style={styles.id}>{"ID: "+rut_id}</Text>
                     <Text style={styles.name}>{Nombre}</Text>

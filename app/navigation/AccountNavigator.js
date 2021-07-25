@@ -7,6 +7,7 @@ import MyDetailsScreen from '../screens/MyDetailsScreen';
 import ListingAssociationsScreen from '../screens/ListingAssociationsScreen';
 import AssociationDetailsScreen from '../screens/AssociationDetailsScreen';
 import AssociateScreen from '../screens/AssociateScreen';
+import WatchingLiveScreen from '../screens/WatchingLiveScreen';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,17 @@ const AccountNavigator = () => (
             options={{
                 headerShown:true,
                 title: "Mis datos",
+                headerStyle: { backgroundColor: colors.primary },
+                headerTintColor: colors.white,
+                headerTitleAlign: 'center',
+            }}
+        />
+        <Stack.Screen 
+            name="WatchingLive"
+            component={WatchingLiveScreen}
+            options={{
+                headerShown: true,
+                title: "En Directo",
                 headerStyle: { backgroundColor: colors.primary },
                 headerTintColor: colors.white,
                 headerTitleAlign: 'center',

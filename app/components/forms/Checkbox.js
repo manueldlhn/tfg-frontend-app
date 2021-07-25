@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import Text from '../Text';
@@ -7,7 +7,7 @@ import { useFormikContext } from 'formik';
 
 function AppCheckbox({name, title, ...otherProps}) {
 
-    const {setFieldValue, errors, values} = useFormikContext();
+    const {setFieldValue, values} = useFormikContext();
 
     return (
         <View style={styles.checkbox}>

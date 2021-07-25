@@ -17,9 +17,7 @@ function ListingWorkoutsScreen({ route, navigation }) {
   const [offset, setOffset] = useState(0);
 
   const {user} = useAuth();
-
-  const allWorkouts = route.params == undefined;
-
+  const allWorkouts = (route.params == undefined || route.params.rut_id == undefined);
 
   useEffect(() => {
       loadWorkouts();
@@ -34,23 +32,23 @@ function ListingWorkoutsScreen({ route, navigation }) {
                         ) : ( 
                             await prescriptionsApi.getWorkoutsFromRoutine(route.params.rut_id, offset)
                         );
-
-    allWorkouts ? setWorkouts(workouts => workouts.concat(response.data)) : formatAndSetWorkouts(workouts, response.data);
+    allWorkouts ? setWorkouts(workouts => workouts.concat(response.data)) : checkWorkouts(workouts, response.data);
     setOffset(offset => offset + response.data.length);
   };
 
-  const formatAndSetWorkouts = (workouts, data) => {
+  const checkWorkouts = (workouts, data) => {
     if(workouts.length+data.length == 0){
         alert("Esta rutina no tiene ejercicios asociados.");
         navigation.goBack();
     } else {
-        data.forEach( entry => {
-            entry.EJERCICIO_ej.Comentarios = entry.Comentarios;
-            workouts.push( entry.EJERCICIO_ej );
-        }); 
+        if(route.params.especialista_email != null) {
+            data.forEach(workout => {
+                workout.especialista_email = route.params.especialista_email;
+                workout.RUTINA_rut_id = route.params.rut_id;
+            });
+        }
+        setWorkouts(workouts => workouts.concat(data));
     }
-    
-
   };
 
   const onRefresh = useCallback(() => {
@@ -82,9 +80,6 @@ function ListingWorkoutsScreen({ route, navigation }) {
                     Nombre={item.Nombre}
                     Subtitulo={item.Subtitulo}
                     Descripcion={item.Descripcion}
-                    Estado_forma={item.Estado_forma}
-                    Pub_priv={item.Pub_priv}
-                    RUTINA_USUARIOS_Email={item.RUTINA_USUARIOS_Email}
                     onPress = { () => navigation.navigate(routes.WORKOUT_DETAILS, item)}
                 />
             }

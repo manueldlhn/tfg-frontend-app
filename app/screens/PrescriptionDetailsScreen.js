@@ -42,7 +42,7 @@ function PrescriptionDetailsScreen({route, navigation}) {
             <View style={styles.container}>
                 <Text style={styles.id}>{"ID de "+type+": "+ (type=="Rutina" ? item.rutina_id : item.ejercicio_id) }</Text>
                 <Text style={styles.email}>{"Usuario: "+item.usuario_email}</Text>
-                <Text style={styles.comments}>{"Comentarios del Especialista:\n\n"+ (item.Comentarios == null ? "Ninguno" : item.Comentarios) }</Text>
+                <Text style={styles.comments}>{"Comentarios del Especialista ("+item.especialista_email+"):\n\n"+ (item.Comentarios == null ? "Ninguno" : item.Comentarios) }</Text>
             </View>
             <View style={styles.buttons}>
                 <TouchableWithoutFeedback onPress={() => navigation.navigate(routes.PRESCRIBE_TO_USER, {what: type.toLowerCase(), data: item, onPopTwo: () => onGoBack()})}>

@@ -20,7 +20,7 @@ function PrescriptionTypesScreen({ navigation }) {
                         IconComponent={<Icon name="calendar-edit" backgroundColor={"indigo"}/>}
                         title="Prescribir Rutina a Usuario"
                         subTitle="Proporciona a un usuario una nueva rutina de ejercicios."
-                        onPress={() => navigation.navigate(routes.PRESCRIBE_TO_USER, {what: "rutina"})}
+                        onPress={() => navigation.navigate(routes.PRESCRIBE_TO_USER, {what: "rutina", data: { especialista_email: user.Email }})}
                     />
                     <ListItemSeparator />
             </View>
@@ -29,7 +29,7 @@ function PrescriptionTypesScreen({ navigation }) {
                         IconComponent={<Icon name="file-document-edit" backgroundColor={"goldenrod"}/>}
                         title="Prescribir Ejercicio a Usuario"
                         subTitle="Proporciona a un usuario un nuevo ejercicio."
-                        onPress={() => navigation.navigate(routes.PRESCRIBE_TO_USER, {what:"ejercicio"})}
+                        onPress={() => navigation.navigate(routes.PRESCRIBE_TO_USER, {what:"ejercicio", data: { especialista_email: user.Email }})}
                     />
                     <ListItemSeparator />
             </View>

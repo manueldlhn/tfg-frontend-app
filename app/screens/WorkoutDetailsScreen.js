@@ -8,7 +8,6 @@ import Icon from '../components/Icon';
 import Screen from '../components/Screen';
 import workoutsApi from '../api/workouts';
 import routes from '../navigation/routes';
-import authStorage from '../auth/storage';
 import useAuth from '../auth/useAuth';
 
 function WorkoutDetailsScreen({ route, navigation }) {
@@ -16,10 +15,9 @@ function WorkoutDetailsScreen({ route, navigation }) {
     const {user} = useAuth();
 
     const handleDelete = (ej_id) => {
-        console.log("Pulsado Delete");
 
         const proceedDeletion = async (ej_id) => {
-            console.log(ej_id);
+            
             const result = await workoutsApi.deleteWorkout(ej_id);
 
             if(!result.ok)
@@ -56,7 +54,7 @@ function WorkoutDetailsScreen({ route, navigation }) {
                 {user.Rol == "Especialista" && <Text style={styles.id}>{"ID:"+workout.ej_id}</Text>} 
                 <Text style={styles.description}>{"Estado de forma: "+workout.Estado_forma}</Text>
                 <Text style={styles.description}>{workout.Descripcion}</Text>
-                {workout.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista: "+workout.Comentarios}</Text>}
+                {workout.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista "+(workout.especialista_email ? workout.especialista_email:"")+": "+workout.Comentarios}</Text>}
                 
                 
             </View>

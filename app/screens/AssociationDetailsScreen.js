@@ -10,7 +10,6 @@ import Screen from '../components/Screen';
 
 function AssociationDetailsScreen({route, navigation}) {
     const { association, email, onGoBack } = route.params;
-    console.log(association);
     const handleDelete = (EJERCICIO_ej_id, RUTINA_rut_id ) => {
         
         const proceedDeletion = async (EJERCICIO_ej_id, RUTINA_rut_id) => {

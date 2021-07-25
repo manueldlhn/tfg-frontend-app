@@ -20,10 +20,10 @@ function CreateWorkoutScreen({ route, navigation }) {
     params = route.params;
 
     const handleSubmit = async (workout) => {
+
         if("ej_id" in params)
             workout.ej_id = params.ej_id;
 
-        console.log(workout);
         
         const result = await("ej_id" in workout ? workoutsApi.updateWorkout(workout) : workoutsApi.createWorkout(workout));
         
@@ -45,8 +45,7 @@ function CreateWorkoutScreen({ route, navigation }) {
                         Subtitulo: params.Subtitulo ,
                         Descripcion: params.Descripcion ? params.Descripcion : "", 
                         Estado_forma: params.Estado_forma ? params.Estado_forma : "",
-                        RUTINA_USUARIOS_Email: params.RUTINA_USUARIOS_Email, 
-                        Pub_priv: params.Pub_priv ? true : false, 
+                        RUTINA_USUARIOS_Email: params.RUTINA_USUARIOS_Email,
                         Ubicacion: params.Ubicacion ? true : false,
                         Podometro: params.Podometro ? true : false,
                     }}
@@ -86,10 +85,6 @@ function CreateWorkoutScreen({ route, navigation }) {
                         placeholder="Correo Electrónico"
                         keyboardType="email-address"
                         editable={false}
-                    />
-                    <Checkbox 
-                        title="Público"
-                        name="Pub_priv"
                     />
                     <Checkbox 
                         title="Ubicación"

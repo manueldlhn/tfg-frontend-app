@@ -5,12 +5,12 @@ import * as Yup from "yup";
 import Screen from '../components/Screen';
 import { Form, FormField, SubmitButton } from '../components/forms';
 import prescriptionsApi from '../api/prescriptions';
-import routes from '../navigation/routes';
 
 
 const validationSchema = Yup.object().shape({
     usuario_email: Yup.string().required().max(45).email().label("usuario_email"),
     id: Yup.number().required().positive().integer().label("id"),
+    especialista_email: Yup.string().required().max(45).email().label("especialista_email"),
     Comentarios: Yup.string().required().max(100).label("Comentarios"),
 });
 
@@ -23,6 +23,7 @@ function PrescribeToUserScreen({ route, navigation }){
             usuario_email: values.usuario_email, 
         };
         prescription[what+"_id"] = parseInt(values.id);
+        prescription.especialista_email = values.especialista_email;
         prescription.Comentarios = values.Comentarios;
 
         const result = await (
@@ -54,6 +55,7 @@ function PrescribeToUserScreen({ route, navigation }){
                     initialValues={{
                         usuario_email: data.usuario_email ? data.usuario_email : "",
                         id: data[what+"_id"] ? data[what+"_id"].toString() : "",
+                        especialista_email: data.especialista_email,
                         Comentarios: data.Comentarios ? data.Comentarios : "",
                     }}
                     onSubmit={handleSubmit}
@@ -74,6 +76,10 @@ function PrescribeToUserScreen({ route, navigation }){
                         placeholder={"Identificador de "+what}
                         keyboardType="numeric"
                         editable={ data[what+"_id"] ? false : true }
+                    />
+                    <FormField 
+                        name="especialista_email"
+                        editable={false}
                     />
                     <FormField 
                         name="Comentarios"

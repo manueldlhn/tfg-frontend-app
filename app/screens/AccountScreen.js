@@ -28,6 +28,7 @@ function AccountScreen({ navigation }) {
                     <ListItemSeparator />
                 </View>
                 {   user.Rol == "Especialista" &&
+                <>
                 <View style={styles.item}>
                     <ListItem 
                         IconComponent={<Icon name="arm-flex" backgroundColor={colors.secondary} />}
@@ -37,6 +38,16 @@ function AccountScreen({ navigation }) {
                     />
                     <ListItemSeparator />
                 </View>
+                <View style={styles.item}>
+                    <ListItem 
+                        IconComponent={<Icon name="radiobox-marked" backgroundColor={colors.red}/>}
+                        title="En Directo"
+                        subTitle="Hacer seguimiento de usuarios en tiempo real."
+                        onPress={() => navigation.navigate(routes.WATCH_LIVE)}
+                    />
+                    <ListItemSeparator />
+                </View>
+                </>
                 }
                 <View style={styles.item}>
                     <ListItem

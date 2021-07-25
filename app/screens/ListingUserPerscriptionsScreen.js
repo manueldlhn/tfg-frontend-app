@@ -23,7 +23,6 @@ function ListingUserPerscriptionsScreen({ route, navigation }) {
     const loadData = async () => {
         const response = type=="Rutina" ? await prescriptionsApi.getRoutinesFromUser(email, offset) : await prescriptionsApi.getWorkoutsFromUser(email, offset);
         
-        console.log(response.dta);
         if(data.length + response.data.length == 0){
             alert("Este usuario no tiene "+type+"s entre sus prescripciones.");
             navigation.goBack();

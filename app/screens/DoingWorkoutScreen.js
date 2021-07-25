@@ -1,10 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, StatusBar, TouchableWithoutFeedback } from 'react-native';
 import { Stopwatch } from 'react-native-stopwatch-timer';
 import * as TaskManager from 'expo-task-manager';
-import * as Location from 'expo-location';
+import * as BackgroundFetch from 'expo-background-fetch';
 import { getPreciseDistance } from 'geolib';
 
+
+import Location from '../sensors/location';
+import Gfit from '../sensors/gfit';
+import mqtt from '../mqtt/mqtt';
 import Screen from '../components/Screen';
 import Icon from '../components/Icon';
 import Text from '../components/Text';
@@ -14,78 +18,112 @@ import colors from '../config/colors';
 function DoingWorkoutScreen ({ route, navigation }) {
     
     const workout = route.params;
+    console.log(workout);
+
+    const {user} = useAuth();
 
     const [startChrono, setStartChrono] = useState(false);
-    const [timeValue, setTimeValue] = useState();
-    const [location, setLocation] = useState();
+    const [startTime, setStartTime] = useState(0);
+    
     const [distance, setDistance] = useState(0);
     const [steps, setSteps] = useState(0);
-    
 
+    const UPDATE_TASK_NAME = 'Periodic_Workout_Task';
 
-    const LOCATION_TASK_NAME = 'background-location-task';
-    
+    var mqttClient;
 
-    const subscribeToLocationUpdates = async () => {
-        const { granted } = await Location.requestPermissionsAsync();
-        if(granted){
-            await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-                accuracy: Location.Accuracy.Highest,
-                timeInterval: 5000,
-                distanceInterval: 0,                
-            });
-        } else {
-            console.log("No se ha realizado la suscripción");
+    var wk_info = {
+        Usuario: user.Email,
+        Nombre_ej: workout.Nombre,
+        Tiempo_ej: '00:00:00',
+        Ultimo_msg: false,
+    };
+    var location;
+
+    workout.Ubicacion && (wk_info.Distancia = distance);
+    workout.Podometro && (wk_info.Pasos = steps);
+
+    useEffect(()=> {
+        console.log("Empezamos ejercicio");
+        setStartChrono(true);
+        setStartTime(Date.now());
+        mqttClient = mqtt.getClient({client_id: user.Email});
+
+        Location.subscribeToLocationUpdates(UPDATE_TASK_NAME);
+        
+        if(workout.Podometro){
+            setSteps(0);
         }
-    };
 
-    const unSuscribeToLocationUpdates = async () => {
-        await Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
+        console.log("Todo listo, empezamos ejercicios");
+
+    }, []);
+
+
+    const stopWorkout = async () => {
+        console.log("Stop Workout");
+        await Location.unSuscribeToLocationUpdates(UPDATE_TASK_NAME);
+        setStartChrono(false);
+        updateWorkoutTime(); // Último
+        wk_info.Ultimo_msg = true;
+        mqtt.sendMsg(JSON.stringify(wk_info), workout.especialista_email); // Último
+        mqtt.disconnect();
+        console.log(wk_info);
+        // almacenar en la bbdd
+
+        var info_adicional ="";
+        "Distancia" in wk_info && (info_adicional += "Distancia: "+wk_info.Distancia+"m ; ");
+        "Pasos" in wk_info && (info_adicional += "Pasos: "+wk_info.Pasos+"; ");
+
+        var record = {
+            USUARIOS_Email: wk_info.Usuario,
+            EJERCICIO_ej_id: workout.ej_id,
+            RUTINA_rut_id: workout.RUTINA_rut_id ? workout.RUTINA_rut_id : null,
+            Fecha_Hora: new Date(startTime).toString(),
+            Tiempo_ej: wk_info.Tiempo_ej,
+            Info_Adicional: info_adicional,
+        };
+
+        console.log(record);
+
+
+
+        navigation.goBack();
     };
 
     
+    
 
-    TaskManager.defineTask(LOCATION_TASK_NAME, ({data, error}) => {
+    TaskManager.defineTask(UPDATE_TASK_NAME, ({data, error}) => {
         if(error){
             return console.log(error.message);
-        }
-        if(data){
-            const {latitude, longitude } = data.locations[0].coords;
-            
-            if(location === undefined) {
-                setLocation({latitude, longitude})
-            } else {
-                const lastDistance = getPreciseDistance(location, {latitude,longitude}, 0.01);
-                console.log("Ultima distancia obtenida: "+lastDistance);
-                setDistance(distance => distance = Math.round((distance + lastDistance)*10)/10);
-                setLocation({latitude, longitude});
+        } else {
+            if(workout.Ubicacion){
+                const {latitude, longitude } = data.locations[0].coords;
+                if(location !== undefined) {
+                    const lastDistance = getPreciseDistance(location, {latitude,longitude}, 0.01);
+                    setDistance(Math.round((distance + lastDistance)*10)/10);
+                }
+                location = {latitude, longitude};
             }
+            if(workout.Podometro){
+                const stepResult = Gfit.getSteps(startTime);
+                console.log("stepResult: "+stepResult);
+                //if(!stepResult.error) setSteps(steps => steps + stepResult.data);
+            }
+            updateWorkoutTime();
+            console.log(wk_info);
+            mqtt.sendMsg(JSON.stringify(wk_info), workout.especialista_email);
         }
     });
 
-
-    const stopWorkout = () => {
-        console.log("Stop Workout");
-        unSuscribeToLocationUpdates()
-        .then( () => {
-            setStartChrono(false);
-            console.log(timeValue);
-            console.log(distance);
-            console.log(steps);
-            navigation.goBack();
-        });
-    };
-
-    const updateTime = time => {
-        setTimeValue(time);
-    };
+    const updateWorkoutTime = () => {
+        const timeDiff = new Date(Date.now()).getTime() - startTime; // En milisegundos
+        wk_info.Tiempo_ej = new Date(timeDiff).toISOString().substr(11,8);
+    }
 
 
-    useEffect(()=> {
-        subscribeToLocationUpdates()
-        .then( setStartChrono(true) );
-    }, []);
-
+    
     return (
         <Screen style={styles.container}>
             <StatusBar 
@@ -97,23 +135,18 @@ function DoingWorkoutScreen ({ route, navigation }) {
                 <Text style={[styles.text, {fontWeight: "bold", fontSize: 24}]}>{workout.Nombre}</Text>
             </View>
             <View style={styles.timer}>
-                {
-                //<Text style={[styles.text, {fontWeight: "bold", fontSize: 50, color: colors.gold}]}>00:00:00</Text>}
-                }
-
                 <Stopwatch 
                     start={startChrono}
-                    getTime={time => 0 }  
                     options={options} 
                 />   
             </View>
             <View style={styles.description}>
                 <Text style={[styles.text, {fontSize: 12, textAlign: "justify"}]}>{workout.Descripcion+"\n\n"+workout.Comentarios}</Text>
             </View>
-            { //(workout.Ubicacion || workout.Podomentro) &&
+            { (workout.Ubicacion || workout.Podomentro) &&
             <View style={styles.sensors}>
-                <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>{"Distancia recorrida:\t\t"+distance.toString()+" metros\n"}</Text>
-                <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>{"Pasos:\t\t"+steps.toString()}</Text>
+                {workout.Ubicacion && <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>{"Distancia recorrida:\t\t"+distance.toString()+" metros\n"}</Text>}
+                {workout.Podometro && <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>{"Pasos:\t\t"+wk_info.Pasos}</Text>}
             </View>
             }
             <TouchableWithoutFeedback onPress={() => stopWorkout()}>

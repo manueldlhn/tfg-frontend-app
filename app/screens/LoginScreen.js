@@ -8,8 +8,6 @@ import { ErrorMessage, Form, FormField, SubmitButton } from '../components/forms
 import Screen from '../components/Screen';
 import colors from '../config/colors';
 import authApi from '../api/auth';
-import AuthContext from '../auth/context';
-import authStorage from '../auth/storage';
 import useAuth from '../auth/useAuth';
 
 const validationSchema = Yup.object().shape({

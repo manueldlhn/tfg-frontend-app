@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet } from "react-native";
 import * as Yup from "yup";
 
 import Screen from "../components/Screen";
-import { Form, FormField, SubmitButton, Checkbox } from "../components/forms";
+import { Form, FormField, SubmitButton } from "../components/forms";
 import routinesApi from '../api/routines';
 import routes from "../navigation/routes";
 
@@ -43,8 +43,7 @@ function CreateRoutineScreen({ route, navigation }) {
                     initialValues={{ 
                         Nombre: params.Nombre ? params.Nombre : "" , 
                         Descripcion: params.Descripcion ? params.Descripcion : "", 
-                        Info_Rutina: params.Info_Rutina, 
-                        Pub_priv: params.Pub_priv ? true : false, 
+                        Info_Rutina: params.Info_Rutina,
                         USUARIOS_Email: params.USUARIOS_Email 
                     }}
                     onSubmit={handleSubmit}
@@ -79,10 +78,6 @@ function CreateRoutineScreen({ route, navigation }) {
                         placeholder="Correo Electrónico"
                         keyboardType="email-address"
                         editable={false}
-                    />
-                    <Checkbox 
-                        title="Pública"
-                        name="Pub_priv"
                     />
 
                     <SubmitButton title="Enviar Rutina" color={"secondary"} />
