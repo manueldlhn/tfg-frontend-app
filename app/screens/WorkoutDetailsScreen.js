@@ -7,38 +7,49 @@ import Text from '../components/Text';
 import Icon from '../components/Icon';
 import Screen from '../components/Screen';
 import workoutsApi from '../api/workouts';
+import prescriptionsApi from '../api/prescriptions';
 import routes from '../navigation/routes';
 import useAuth from '../auth/useAuth';
 
 function WorkoutDetailsScreen({ route, navigation }) {
-    const workout = route.params;
+    const { workout, rut_id, onGoBack } = route.params;
     const {user} = useAuth();
-
-    const handleDelete = (ej_id) => {
-
-        const proceedDeletion = async (ej_id) => {
+    console.log(workout);
+    const handleDelete = (ej_id, rut_id) => {
+        console.log(rut_id);
+        const proceedDeletion = async (EJERCICIO_ej_id, RUTINA_rut_id) => {
             
-            const result = await workoutsApi.deleteWorkout(ej_id);
+            const result = RUTINA_rut_id === null 
+                            ? 
+                            await workoutsApi.deleteWorkout(EJERCICIO_ej_id)
+                            :
+                            await prescriptionsApi.deleteWorkoutFromRoutine(EJERCICIO_ej_id, RUTINA_rut_id);
 
             if(!result.ok)
                 return alert(result.data.message);
             alert(result.data.message);
-            navigation.reset({
-                index: 0,
-                routes: [{ name: routes.LISTING_WORKOUTS }]
-            });
+            onGoBack();
+            navigation.goBack();
         };
 
         Alert.alert(
             "Confirmación",
-            "¿Seguro que desea borrar este ejercicio?",
+            rut_id ?
+                "Está a punto de eliminar la asociación de un ejercicio a una rutina. "+
+                "Esta acción desligará el ejercicio de la rutina, pero el ejercicio seguirá existiendo.\n\n"+
+                "¿Seguro que desea eliminar la asociación?"
+                :
+                "Está a punto de eliminar un ejercicio. "+
+                "Es posible que se encuentre incluido en alguna rutina o prescrito a algún usuario. "+
+                "Si prosigue con el borrado, quedará eliminado para las posibles rutinas o usuarios mencionados.\n\n"+
+                "¿Seguro que desea eliminar el ejercicio?",
             [
                 {
                     text: "No",
                 },
                 {
                     text: "Sí",
-                    onPress: () => {proceedDeletion(ej_id)},
+                    onPress: () => {proceedDeletion(ej_id, rut_id)},
                 }
             ]
         );
@@ -54,7 +65,7 @@ function WorkoutDetailsScreen({ route, navigation }) {
                 {user.Rol == "Especialista" && <Text style={styles.id}>{"ID:"+workout.ej_id}</Text>} 
                 <Text style={styles.description}>{"Estado de forma: "+workout.Estado_forma}</Text>
                 <Text style={styles.description}>{workout.Descripcion}</Text>
-                {workout.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista "+(workout.especialista_email ? workout.especialista_email:"")+": "+workout.Comentarios}</Text>}
+                {workout.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista "+(workout.USUARIOS_Email ? workout.USUARIOS_Email:"")+": "+workout.Comentarios}</Text>}
                 
                 
             </View>
@@ -74,9 +85,13 @@ function WorkoutDetailsScreen({ route, navigation }) {
                     </TouchableWithoutFeedback>   
                 </View>
                 ) : (
-                workout.Comentarios === undefined &&
                 <View style={styles.buttons}>
-                    <TouchableWithoutFeedback onPress={() => navigation.navigate(routes.CREATE_WORKOUT, workout)}>
+                    <TouchableWithoutFeedback onPress={() => "Comentarios" in workout ?
+                                                                navigation.navigate(routes.ASSOCIATE, {email: user.Email, item: {RUTINA_rut_id: rut_id, EJERCICIO_ej_id: workout.ej_id, Comentarios: workout.Comentarios}, onPopTwo: () => onGoBack() })
+                                                                :
+                                                                navigation.navigate(routes.CREATE_WORKOUT, workout)
+                                                       }
+                    >
                         <View style={styles.button}>
                             <Icon 
                                 name="pencil"
@@ -86,7 +101,7 @@ function WorkoutDetailsScreen({ route, navigation }) {
                             />
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => handleDelete(workout.ej_id)}>
+                    <TouchableWithoutFeedback onPress={() => handleDelete(workout.ej_id, rut_id)}>
                         <View style={styles.button}>
                             <Icon 
                                 name="delete"

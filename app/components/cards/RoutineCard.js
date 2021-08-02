@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import useAuth from '../../auth/useAuth';
 
 import colors from '../../config/colors';
 import Icon from '../Icon';
 import Text from '../Text';
 
 function RoutineCard({ rut_id, Nombre, Descripcion, Info_Rutina, onPress}) {
-    
+    const {user} = useAuth();
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.card}>
@@ -15,7 +16,7 @@ function RoutineCard({ rut_id, Nombre, Descripcion, Info_Rutina, onPress}) {
                     iconColor={colors.secondary} 
                     backgroundColor={colors.lightgreen}/>
                 <View style={styles.info}>
-                    <Text style={styles.id}>{"ID: "+rut_id}</Text>
+                    {user.Rol == "Especialista" && <Text style={styles.id}>{"ID: "+rut_id}</Text>}
                     <Text style={styles.name}>{Nombre}</Text>
                     <Text numberOfLines={1}>{Descripcion}</Text>
                     <Text style={styles.description}>{"Creada por: "+Info_Rutina}</Text>

@@ -4,10 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AccountScreen from '../screens/AccountScreen';
 import colors from '../config/colors';
 import MyDetailsScreen from '../screens/MyDetailsScreen';
-import ListingAssociationsScreen from '../screens/ListingAssociationsScreen';
-import AssociationDetailsScreen from '../screens/AssociationDetailsScreen';
-import AssociateScreen from '../screens/AssociateScreen';
 import WatchingLiveScreen from '../screens/WatchingLiveScreen';
+import ListingRecordsScreen from '../screens/ListingRecordsScreen';
+import AboutScreen from '../screens/AboutScreen';
 
 const Stack = createStackNavigator();
 
@@ -51,33 +50,22 @@ const AccountNavigator = () => (
             }}
         />
         <Stack.Screen
-            name="ListingAssociations"
-            component={ListingAssociationsScreen}
+            name="ListingRecords"
+            component={ListingRecordsScreen}
             options={{
                 headerShown:true,
-                title: "Asociaciones",
+                title: "Historial de Ejercicios",
                 headerStyle: { backgroundColor: colors.primary },
                 headerTintColor: colors.white,
                 headerTitleAlign: 'center',
             }}
         />
         <Stack.Screen
-            name="AssociationDetails"
-            component={AssociationDetailsScreen}
+            name="About"
+            component={AboutScreen}
             options={{
                 headerShown:true,
-                title: "Detalles de la Asociación",
-                headerStyle: { backgroundColor: colors.primary },
-                headerTintColor: colors.white,
-                headerTitleAlign: 'center',
-            }}
-        />
-        <Stack.Screen
-            name="Associate"
-            component={AssociateScreen}
-            options={{
-                headerShown:true,
-                title: "Modificar Asociación",
+                title: "Acerca de",
                 headerStyle: { backgroundColor: colors.primary },
                 headerTintColor: colors.white,
                 headerTitleAlign: 'center',

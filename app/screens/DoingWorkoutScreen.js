@@ -9,6 +9,7 @@ import { getPreciseDistance } from 'geolib';
 import Location from '../sensors/location';
 import Gfit from '../sensors/gfit';
 import mqtt from '../mqtt/mqtt';
+import recordsApi from '../api/records';
 import Screen from '../components/Screen';
 import Icon from '../components/Icon';
 import Text from '../components/Text';
@@ -49,7 +50,7 @@ function DoingWorkoutScreen ({ route, navigation }) {
         setStartTime(Date.now());
         mqttClient = mqtt.getClient({client_id: user.Email});
 
-        Location.subscribeToLocationUpdates(UPDATE_TASK_NAME);
+        Location.subscribeToLocationUpdates(UPDATE_TASK_NAME, workout.Ubicacion);
         
         if(workout.Podometro){
             setSteps(0);
@@ -75,18 +76,27 @@ function DoingWorkoutScreen ({ route, navigation }) {
         "Distancia" in wk_info && (info_adicional += "Distancia: "+wk_info.Distancia+"m ; ");
         "Pasos" in wk_info && (info_adicional += "Pasos: "+wk_info.Pasos+"; ");
 
+        
+        const date = new Date(startTime);
+    
+        const formattedDate = date.getDate().toString() +'/'+
+                              (date.getMonth()+1).toString() +'/'+
+                              date.getFullYear().toString()+' '+
+                              (date.getHours() < 10 ? "0" : "")+date.getHours().toString()+':'+
+                              (date.getMinutes() < 10 ? "0" : "")+date.getMinutes().toString()+':'+
+                              (date.getSeconds() < 10 ? "0" : "")+date.getSeconds().toString();
+
         var record = {
             USUARIOS_Email: wk_info.Usuario,
             EJERCICIO_ej_id: workout.ej_id,
             RUTINA_rut_id: workout.RUTINA_rut_id ? workout.RUTINA_rut_id : null,
-            Fecha_Hora: new Date(startTime).toString(),
-            Tiempo_ej: wk_info.Tiempo_ej,
+            Fecha_Hora: formattedDate,
+            Tiempo_ejercicio: wk_info.Tiempo_ej,
             Info_Adicional: info_adicional,
         };
-
-        console.log(record);
-
-
+        
+        const result = await recordsApi.addRecord(record);
+        console.log(result.ok);
 
         navigation.goBack();
     };

@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, FlatList, RefreshControl } from 'react-native';
 
 import prescriptionsApi from '../api/prescriptions';
+import useAuth from '../auth/useAuth';
+import AddButton from '../components/AddButton';
 import PrescriptionCard from '../components/cards/PrescriptionCard';
 import Screen from '../components/Screen';
 import colors from '../config/colors';
@@ -13,6 +15,7 @@ function ListingUserPerscriptionsScreen({ route, navigation }) {
     const [data, setData] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [offset, setOffset] = useState(0);  
+    const {user} = useAuth();
 
     navigation.setOptions({ title: "Prescripciones de "+type });
     
@@ -60,11 +63,14 @@ function ListingUserPerscriptionsScreen({ route, navigation }) {
                     <PrescriptionCard
                         type = {type}
                         id = {type=="Rutina" ? item.rutina_id : item.ejercicio_id}
-                        usuario_email = {item.usuario_email}
+                        Nombre = {item.Nombre}
                         Comentarios = {item.Comentarios}
-                        onPress = { () => navigation.navigate(routes.PRESCRIPTION_DETAILS, {type: type, item: item, onGoBack: () => onRefresh()}) }
+                        onPress = { () => navigation.navigate(routes.PRESCRIPTION_DETAILS, {type: type, item: item, usuario_email:email, onGoBack: () => onRefresh()}) }
                     />
                 }
+            />
+            <AddButton 
+                onPress={() => navigation.navigate(routes.PRESCRIBE_TO_USER, { what: type.toLowerCase(), data: {usuario_email: email, especialista_email: user.Email}, onPopTwo: () => onRefresh()})}
             />
         </Screen>
     );

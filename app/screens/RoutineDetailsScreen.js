@@ -31,6 +31,8 @@ function RoutineDetailsScreen({ route, navigation }) {
 
         Alert.alert(
             "Confirmación",
+            "Está a punto de eliminar una rutina. "+
+            "Si esta rutina está prescrita a algún usuario, desaparecerá la prescripción asociada.\n\n"+
             "¿Seguro que desea borrar esta rutina?",
             [
                 {
@@ -59,10 +61,10 @@ function RoutineDetailsScreen({ route, navigation }) {
                 <Button
                     title="Ver Ejercicios"
                     onPress={() => navigation.navigate(routes.LISTING_WORKOUTS, { rut_id: routine.rut_id, especialista_email: routine.especialista_email ? routine.especialista_email : null})}
-                    color="white"
-                    fontColor="secondary"
+                    color="secondary"
+                    fontColor="white"
                     borderWidth={3}
-                    borderColor="secondary"
+                    borderColor="lightgreen"
                 />
             </View>
                 

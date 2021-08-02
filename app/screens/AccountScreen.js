@@ -20,7 +20,7 @@ function AccountScreen({ navigation }) {
         >
                 <View style={styles.item}>
                     <ListItem 
-                        IconComponent={<Icon name="account-edit" color={colors.primary} backgroundColor={colors.primary}/>}
+                        IconComponent={<Icon name="account-edit" backgroundColor={colors.primary}/>}
                         title={user.Nombre}
                         subTitle={user.Email}
                         onPress={() => navigation.navigate(routes.MY_DETAILS, user)}
@@ -29,15 +29,6 @@ function AccountScreen({ navigation }) {
                 </View>
                 {   user.Rol == "Especialista" &&
                 <>
-                <View style={styles.item}>
-                    <ListItem 
-                        IconComponent={<Icon name="arm-flex" backgroundColor={colors.secondary} />}
-                        title="Asociaciones"
-                        subTitle="Ver Asociaciones de Ejercicios a Rutinas."
-                        onPress={() => navigation.navigate(routes.LISTING_ASSOCIATIONS, user)}
-                    />
-                    <ListItemSeparator />
-                </View>
                 <View style={styles.item}>
                     <ListItem 
                         IconComponent={<Icon name="radiobox-marked" backgroundColor={colors.red}/>}
@@ -49,13 +40,35 @@ function AccountScreen({ navigation }) {
                 </View>
                 </>
                 }
+                {   user.Rol == "Usuario" &&
+                <View style={styles.item}>
+                    <ListItem
+                        IconComponent={<Icon name="text-box" backgroundColor={"indigo"} />}
+                        title="Historial"
+                        subTitle="Acceder a mi historial de ejercicios."
+                        onPress={() => navigation.navigate(routes.USER_RECORDS, user.Email)}
+                    />
+                    <ListItemSeparator />
+                </View>
+                }
+                <View style={styles.item}>
+                    <ListItem
+                        title="Acerca de"
+                        subTitle="Información relacionada con el desarrollo del servicio."
+                        IconComponent={<Icon name="information-variant" backgroundColor={colors.secondary} />}
+                        onPress={() => navigation.navigate(routes.ABOUT)}
+                    />
+                    <ListItemSeparator />
+                </View>
                 <View style={styles.item}>
                     <ListItem
                         title="Cerrar Sesión"
                         IconComponent={<Icon name="logout" backgroundColor="gold" />}
                         onPress={() => logOut()}
                     />
+                    <ListItemSeparator />
                 </View>            
+
         </Screen>
     );
 }

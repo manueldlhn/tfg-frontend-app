@@ -7,6 +7,7 @@ import colors from '../config/colors';
 import ListingUserPerscriptionsScreen from '../screens/ListingUserPerscriptionsScreen';
 import PrescriptionDetailsScreen from '../screens/PrescriptionDetailsScreen';
 import PrescribeToUserScreen from '../screens/PrescribeToUserScreen';
+import ListingRecordsScreen from '../screens/ListingRecordsScreen';
 
 
 const Stack = createStackNavigator();
@@ -32,6 +33,17 @@ const UserNavigator = () => (
             options={{
                 headerShown:true, 
                 title:"Detalles del Usuario",
+                headerStyle: { backgroundColor: colors.primary},
+                headerTintColor: colors.white,
+                headerTitleAlign: "center",
+            }}
+        />
+        <Stack.Screen
+            name="ListingRecords"
+            component={ListingRecordsScreen}
+            options={{
+                headerShown:true, 
+                title:"Historial de Ejercicios",
                 headerStyle: { backgroundColor: colors.primary},
                 headerTintColor: colors.white,
                 headerTitleAlign: "center",
@@ -64,7 +76,7 @@ const UserNavigator = () => (
             component={PrescribeToUserScreen}
             options={{
                 headerShown:true, 
-                title:"Modificar Prescripción",
+                title:"Prescripción",
                 headerStyle: { backgroundColor: colors.primary},
                 headerTintColor: colors.white,
                 headerTitleAlign: "center",

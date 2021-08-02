@@ -15,7 +15,7 @@ const getWorkoutsFromRoutine = (rut_id, offset) => client.get(endpoint_WR+'/Rout
 const getRoutinesFromUser = (email, offset) => client.get(endpoint_UR+'/User/'+email+'/?offset='+offset);
 const getWorkoutsFromUser = (email, offset) => client.get(endpoint_UW+'/User/'+email+'/?offset?'+offset);
 
-const updateWorkoutFromRoutine = workoutRoutine => client.put(endpoint_WR+'/Workout-&-Routine/'+workoutRoutine.EJERCICIO_ej_id+'/'+workoutRoutine.RUTINA_rut_id, { Comentarios: workoutRoutine.Comentarios , USUARIOS_Email: workoutRoutine.USUARIOS_Email })
+const updateWorkoutFromRoutine = workoutRoutine => client.put(endpoint_WR+'/'+workoutRoutine.EJERCICIO_ej_id+'/'+workoutRoutine.RUTINA_rut_id, { Comentarios: workoutRoutine.Comentarios , USUARIOS_Email: workoutRoutine.USUARIOS_Email })
 const updateRoutineFromUser = ({rutina_id, usuario_email, Comentarios}) => client.put(endpoint_UR+'/User-&-Routine/'+usuario_email+'/'+rutina_id, {Comentarios: Comentarios});
 const updateWorkoutFromUser = ({ejercicio_id, usuario_email, Comentarios}) => client.put(endpoint_UW+'/User-&-Workout/'+usuario_email+'/'+ejercicio_id, {Comentarios: Comentarios});
 

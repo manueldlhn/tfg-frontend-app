@@ -19,7 +19,7 @@ function LiveUserCard({ Usuario, Nombre_ej, Tiempo_ej, Ultimo_msg, Distancia, Pa
             <View style={styles.card}>
                 <Icon
                     name="radiobox-marked"
-                    iconColor={Ultimo_msg ? colors.grey : colors.red }
+                    iconColor={Ultimo_msg ? colors.grey : colors.secondary }
                     backgroundColor={colors.white}
                 />
                 <View style={styles.info}>

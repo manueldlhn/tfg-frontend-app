@@ -10,6 +10,7 @@ export default {
     lightgreen: "lightgreen",
     red:"red",
     darkred: "darkred",
+    lightred: "indianred",
     gold: "goldenrod",
     lightprimary: "lightsteelblue",
 }

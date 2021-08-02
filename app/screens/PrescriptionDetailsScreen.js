@@ -9,7 +9,9 @@ import prescriptionsApi from '../api/prescriptions';
 import Screen from '../components/Screen';
 
 function PrescriptionDetailsScreen({route, navigation}) {
-    const { type, item, onGoBack } = route.params;
+    const { type, item, usuario_email, onGoBack } = route.params;
+
+    item.usuario_email = usuario_email;
 
     const handleDelete = (id, email) => {
         
@@ -40,8 +42,8 @@ function PrescriptionDetailsScreen({route, navigation}) {
     return (
         <Screen style={{backgroundColor: colors.lightprimary, flex: 1}}>
             <View style={styles.container}>
-                <Text style={styles.id}>{"ID de "+type+": "+ (type=="Rutina" ? item.rutina_id : item.ejercicio_id) }</Text>
-                <Text style={styles.email}>{"Usuario: "+item.usuario_email}</Text>
+                <Text style={styles.id}>{type=="Rutina" ? "Rutina: "+item.Nombre+" (ID: "+item.rutina_id+")" : "Ejercicio: "+item.Nombre+" (ID: "+item.ejercicio_id+")" }</Text>
+                <Text style={styles.email}>{"Usuario: "+usuario_email}</Text>
                 <Text style={styles.comments}>{"Comentarios del Especialista ("+item.especialista_email+"):\n\n"+ (item.Comentarios == null ? "Ninguno" : item.Comentarios) }</Text>
             </View>
             <View style={styles.buttons}>

@@ -38,8 +38,7 @@ function ListingWorkoutsScreen({ route, navigation }) {
 
   const checkWorkouts = (workouts, data) => {
     if(workouts.length+data.length == 0){
-        alert("Esta rutina no tiene ejercicios asociados.");
-        navigation.goBack();
+        alert("Esta rutina no tiene ejercicios asociados. Para añadir uno, por favor utilice el botón (+) de abajo.");
     } else {
         if(route.params.especialista_email != null) {
             data.forEach(workout => {
@@ -68,9 +67,7 @@ function ListingWorkoutsScreen({ route, navigation }) {
     <Screen style={styles.screen}>
         <FlatList 
             data={workouts}
-            refreshControl={ allWorkouts &&
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
-            }
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
             keyExtractor={workout => workout.ej_id.toString()}
             onEndReached = {handleLoadMore}
             onEndReachedThreshold = {0.1}
@@ -80,13 +77,17 @@ function ListingWorkoutsScreen({ route, navigation }) {
                     Nombre={item.Nombre}
                     Subtitulo={item.Subtitulo}
                     Descripcion={item.Descripcion}
-                    onPress = { () => navigation.navigate(routes.WORKOUT_DETAILS, item)}
+                    onPress = { () => navigation.navigate(routes.WORKOUT_DETAILS, { workout: item, rut_id: allWorkouts ? null : route.params.rut_id, onGoBack: () => onRefresh() })}
                 />
             }
         />
-        {   user.Rol == "Especialista" && allWorkouts &&
+        {   user.Rol == "Especialista" &&
             <AddButton
-                onPress={() => navigation.navigate(routes.CREATE_WORKOUT, { Subtitulo: user.Nombre, RUTINA_USUARIOS_Email: user.Email })} 
+                onPress={() => allWorkouts ? 
+                                    navigation.navigate(routes.CREATE_WORKOUT, { Subtitulo: user.Nombre, RUTINA_USUARIOS_Email: user.Email }) 
+                                    : 
+                                    navigation.navigate(routes.ASSOCIATE, {email: user.Email, item: {RUTINA_rut_id: route.params.rut_id}})
+                        } 
             />
         }
     </Screen>

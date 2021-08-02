@@ -8,6 +8,7 @@ import colors from '../config/colors';
 import ListingWorkoutsScreen from '../screens/ListingWorkoutsScreen';
 import WorkoutDetailsScreen from '../screens/WorkoutDetailsScreen';
 import DoingWorkoutScreen from '../screens/DoingWorkoutScreen';
+import AssociateScreen from '../screens/AssociateScreen';
 
 
 const Stack = createStackNavigator();
@@ -67,6 +68,17 @@ const RoutineNavigator = () => (
                 headerShown:true, 
                 title: "Crear nueva Rutina",
                 headerStyle: { backgroundColor: colors.primary},
+                headerTintColor: colors.white,
+                headerTitleAlign: "center",
+            }}
+        />
+        <Stack.Screen 
+            name="Associate"
+            component={AssociateScreen}
+            options={{
+                headerShown: true,
+                title: "Asociar Ejercicio a Rutina",
+                headerStyle: { backgroundColor: colors.primary },
                 headerTintColor: colors.white,
                 headerTitleAlign: "center",
             }}

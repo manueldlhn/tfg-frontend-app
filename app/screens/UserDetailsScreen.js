@@ -41,9 +41,9 @@ function UserDetailsScreen({ route, navigation }) {
                             <Button 
                                 title="Rutinas"
                                 onPress={() => navigation.navigate(routes.USER_PRESCRIPTIONS, {email: user.Email, type: "Rutina"})}
-                                color="white"
-                                fontColor="primary"
-                                borderColor="primary"
+                                color="primary"
+                                fontColor="white"
+                                borderColor="lightprimary"
                                 borderWidth={3}
                             />
                         </View>
@@ -51,19 +51,19 @@ function UserDetailsScreen({ route, navigation }) {
                             <Button 
                                 title="Ejercicios"
                                 onPress={() => navigation.navigate(routes.USER_PRESCRIPTIONS, {email: user.Email, type:"Ejercicio"})}
-                                color="white"
-                                fontColor="secondary"
-                                borderColor="secondary"
+                                color="secondary"
+                                fontColor="white"
+                                borderColor="lightgreen"
                                 borderWidth={3}
                             />
                         </View>
                         <View style={[styles.button, styles.recordButton]}>
                             <Button 
                                 title="Historial"
-                                onPress={() => console.log("Ver Historial")}
-                                color="lightgrey"
-                                fontColor="darkred"
-                                borderColor="darkred"
+                                onPress={() => navigation.navigate(routes.USER_RECORDS, user.Email)}
+                                color="darkred"
+                                fontColor="white"
+                                borderColor="lightred"
                                 borderWidth={3}
                             />
                         </View>

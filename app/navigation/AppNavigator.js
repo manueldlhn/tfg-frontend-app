@@ -5,9 +5,7 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 
 import AccountNavigator from './AccountNavigator';
-import PrescriptionNavigator from './PrescriptionNavigator';
 import colors from '../config/colors';
-import PrescribeButton from '../components/PrescribeButton';
 import { StyleSheet } from 'react-native';
 import RoutineNavigator from './RoutineNavigator';
 import UserNavigator from './UserNavigator';
@@ -32,7 +30,7 @@ const AppNavigator = ({user}) => (
             inactiveTintColor: colors.lightprimary,
             style: styles.tab,
         }}
-        
+        initialRouteName="Yo"
     >
         {
             user.Rol == "Especialista" 
@@ -54,18 +52,6 @@ const AppNavigator = ({user}) => (
                 tabBarVisible: getTabBarVisibility(route),
             })}
         />
-        {
-            user.Rol == "Especialista"
-                &&
-            <Tab.Screen 
-                name="Prescripcion"
-                component={PrescriptionNavigator}
-                options={{
-                    tabBarIcon: () => <PrescribeButton />,
-                    tabBarLabel: ' ',
-                }}
-            />
-        }
         <Tab.Screen
             name="Ejercicios"
             component={WorkoutNavigator}

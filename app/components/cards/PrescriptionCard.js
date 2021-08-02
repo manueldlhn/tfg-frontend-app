@@ -6,7 +6,7 @@ import Icon from '../Icon';
 import Text from '../Text';
 
 
-function PrescriptionCard({ type, id, email, Comentarios, onPress }) {
+function PrescriptionCard({ type, id, Nombre, Comentarios, onPress }) {
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.card}>
@@ -16,7 +16,7 @@ function PrescriptionCard({ type, id, email, Comentarios, onPress }) {
                     backgroundColor={colors.black}
                 />
                 <View style={styles.info}>
-                    <Text style={styles.id}>{"ID: "+id}</Text>
+                    <Text style={styles.id}>{Nombre+" (ID: "+id+")"}</Text>
                     <Text style={styles.comments} numberOfLines={1}>{"Comentarios: "+ Comentarios==null ? "Ninguno." : Comentarios}</Text>
                 </View>
             </View>

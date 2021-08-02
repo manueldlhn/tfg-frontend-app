@@ -17,7 +17,6 @@ const validationSchema = Yup.object().shape({
 
 function PrescribeToUserScreen({ route, navigation }){
     const {what, data={}, onPopTwo=() => console.log("Nada")} = route.params;
-    
     const handleSubmit = async (values) => {
         var prescription = {
             usuario_email: values.usuario_email, 
@@ -40,12 +39,8 @@ function PrescribeToUserScreen({ route, navigation }){
             return alert("Ha habido un error al subir la prescripción. Por favor compruebe que los datos son correctos.");
         alert("Prescripción implementada con éxito");
         
-        if("Comentarios" in data){
-            onPopTwo();
-            navigation.pop(2)
-        } else {
-            navigation.goBack();
-        }
+        onPopTwo();
+        "Comentarios" in data ? navigation.pop(2) : navigation.goBack();
     };
 
     return (
@@ -68,6 +63,7 @@ function PrescribeToUserScreen({ route, navigation }){
                         placeholder="Correo Electronico"
                         keyboardType="email-address"
                         editable={ data.usuario_email ? false : true }
+                        title="Usuario:"
                     />
                     <FormField 
                         name="id"
@@ -76,10 +72,12 @@ function PrescribeToUserScreen({ route, navigation }){
                         placeholder={"Identificador de "+what}
                         keyboardType="numeric"
                         editable={ data[what+"_id"] ? false : true }
+                        title={what == "ejercicio" ? "Ejercicio (ID):" : "Rutina (ID):"}
                     />
                     <FormField 
                         name="especialista_email"
                         editable={false}
+                        title="Especialista:"
                     />
                     <FormField 
                         name="Comentarios"
@@ -87,6 +85,7 @@ function PrescribeToUserScreen({ route, navigation }){
                         autoCapitalize="none"
                         placeholder="Comentarios del Especialista (OPCIONAL)"
                         multiline
+                        title="Comentarios:"
                     />
                     <SubmitButton title={"Prescribir "+what} color={"secondary"}/>
                 </Form>

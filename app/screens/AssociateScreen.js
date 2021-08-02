@@ -15,23 +15,26 @@ const validationSchema = Yup.object().shape({
 
 function AssociateScreen({ route, navigation }) {
     const {email, item={}, onPopTwo = () => 0} = route.params;
-
+    console.log(email);
     const handleSubmit = async (values) => {
-
+    
         var association = { USUARIOS_Email : values.USUARIOS_Email };
 
         association.EJERCICIO_ej_id = parseInt(values.EJERCICIO_ej_id);
         association.RUTINA_rut_id = parseInt(values.RUTINA_rut_id);
         association.Comentarios = values.Comentarios;
 
-        const result = await( item.Comentarios !== undefined ? prescriptionsApi.updateWorkoutFromRoutine(association) :  prescriptionsApi.prescribe_WR(association));
+        console.log(association);
+
+        const result = await( (item.Comentarios !== undefined) ? prescriptionsApi.updateWorkoutFromRoutine(association) :  prescriptionsApi.prescribe_WR(association));
 
         if(!result.ok)
             return alert("Ha habido un error al realizar la asociación. Por favor compruebe los datos que ha proporcionado");
         alert("Asociación exitosa");
-
+        
+        onPopTwo();
         if("Comentarios" in item){
-            onPopTwo();
+            
             navigation.pop(2);
         } else {
             navigation.goBack();
@@ -57,7 +60,8 @@ function AssociateScreen({ route, navigation }) {
                         autoCapitalize="none"
                         placeholder={"Identificador de ejercicio"}
                         keyboardType="numeric"
-                        editable = { item.Comentarios !== undefined ? false : true }
+                        editable = { item.EJERCICIO_ej_id !== undefined ? false : true }
+                        title = "Ejercicio (ID):"
                     />
                     <FormField 
                         name="RUTINA_rut_id"
@@ -65,7 +69,8 @@ function AssociateScreen({ route, navigation }) {
                         autoCapitalize="none"
                         placeholder={"Identificador de rutina"}
                         keyboardType="numeric"
-                        editable = { item.Comentarios !== undefined ? false : true }
+                        editable = { item.RUTINA_rut_id !== undefined ? false : true }
+                        title="Rutina (ID):"
                     />
                     <FormField 
                         name="USUARIOS_Email"
@@ -74,6 +79,7 @@ function AssociateScreen({ route, navigation }) {
                         placeholder="Correo Electronico"
                         keyboardType="email-address"
                         editable={ false }
+                        title="Especialista:"
                     />
                     <FormField 
                         name="Comentarios"
@@ -81,6 +87,7 @@ function AssociateScreen({ route, navigation }) {
                         autoCapitalize="none"
                         placeholder="Comentarios del Especialista"
                         multiline
+                        title="Comentarios:"
                     />
 
                     <SubmitButton title={item.Comentarios !== undefined ? "Actualizar" : "Asociar"} color={"secondary"}/>

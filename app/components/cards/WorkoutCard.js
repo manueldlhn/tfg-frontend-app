@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import useAuth from '../../auth/useAuth';
 
 import colors from '../../config/colors';
 import Icon from '../Icon';
 import Text from '../Text';
 
 function WorkoutCard({ ej_id, Nombre, Subtitulo, Descripcion, onPress }) {
+    const {user} = useAuth();
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.card}>
@@ -14,7 +16,7 @@ function WorkoutCard({ ej_id, Nombre, Subtitulo, Descripcion, onPress }) {
                     iconColor={colors.secondary} 
                     backgroundColor={colors.lightgreen}/>
                 <View style={styles.info}>
-                    <Text style={styles.id}>{"ID: "+ej_id}</Text>
+                    {user.Rol == "Especialista" && <Text style={styles.id}>{"ID: "+ej_id}</Text>}
                     <Text style={styles.title}>{Nombre}</Text>
                     <Text style={styles.description} numberOfLines={1} >{Descripcion}</Text>
                     <Text style={styles.subTitle}>{"Creado por: "+Subtitulo}</Text>

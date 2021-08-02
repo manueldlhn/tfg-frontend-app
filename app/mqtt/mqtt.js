@@ -1,5 +1,6 @@
 import init from 'react_native_mqtt';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import constants from '../config/constants';
 
 init({
     size: 10000,
@@ -12,8 +13,8 @@ init({
     }
 });
 
-const HOST = 'broker.hivemq.com';
-const PORT = 8000;
+const HOST = constants.MQTT_HOST;
+const PORT = constants.MQTT_PORT;
 
 var client;
 var callbackSUBS = '';
