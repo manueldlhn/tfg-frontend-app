@@ -10,6 +10,7 @@ import routinesApi from '../api/routines';
 import routes from '../navigation/routes';
 import useAuth from '../auth/useAuth';
 import Button from '../components/Button';
+import { ListItemSeparator } from '../components/lists';
 
 
 function RoutineDetailsScreen({ route, navigation }) {
@@ -47,16 +48,18 @@ function RoutineDetailsScreen({ route, navigation }) {
     };
 
     return (
-        <Screen style={{backgroundColor: colors.lightprimary, flex: 1}}>
-            <View style={styles.container}>
-                
-                <Text style={styles.name}>{routine.Nombre}</Text>
-                {user.Rol == "Especialista" && <Text style={styles.id}>{"ID:"+routine.rut_id}</Text>}
-                <Text style={styles.description}>{routine.Descripcion}</Text>
-                {routine.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista "+(routine.especialista_email ? routine.especialista_email: "")+": "+routine.Comentarios}</Text>}
-                
-                
+        <Screen style={styles.container}>
+
+            <Text style={styles.name}>{routine.Nombre}</Text>
+            <ListItemSeparator />
+            <View style={styles.miscellaneous}>
+                <Text style={styles.miscText}>{"Creado por: "+routine.Info_Rutina+" - "+routine.USUARIOS_Email}</Text>
             </View>
+            
+            {user.Rol == "Especialista" && <Text style={styles.id}>{"ID:"+routine.rut_id}</Text>}
+            <Text style={styles.description}>{routine.Descripcion}</Text>
+            {routine.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista "+(routine.especialista_email ? routine.especialista_email: "")+": "+routine.Comentarios}</Text>}
+
             <View style={styles.showWorkoutsButton}>
                 <Button
                     title="Ver Ejercicios"
@@ -97,10 +100,6 @@ function RoutineDetailsScreen({ route, navigation }) {
 
                 </View>
             }
-            <View style={styles.miscellaneous}>
-                <Text style={styles.miscText}>{"Creado por: "+routine.Info_Rutina+" - "+routine.USUARIOS_Email}</Text>
-            </View>
-
         </Screen>
         
     );
@@ -108,11 +107,10 @@ function RoutineDetailsScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         padding: 20,
         paddingTop:10,
         backgroundColor: colors.white,
-        height: "90%",
-        borderBottomEndRadius: 1000,
     },
     name: {
         marginBottom: 20,
@@ -129,12 +127,14 @@ const styles = StyleSheet.create({
         color: colors.secondary,
     },
     miscellaneous: {
-        position: "absolute",
-        left: 15,
-        bottom: 25,
+        position: "relative",
+        top: 15,
+        marginBottom: 20,
     },
     miscText: {
         fontWeight: 'bold',
+        fontStyle:"italic",
+        fontSize: 15,
     },
     description: {
         marginTop: 15,
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     showWorkoutsButton: {
-        bottom: 110,
+        bottom: 0,
         width: 180,
         height: 25,
         left: 15

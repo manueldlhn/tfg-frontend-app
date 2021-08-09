@@ -42,7 +42,6 @@ function ListingWorkoutsScreen({ route, navigation }) {
     } else {
         if(route.params.especialista_email != null) {
             data.forEach(workout => {
-                workout.especialista_email = route.params.especialista_email;
                 workout.RUTINA_rut_id = route.params.rut_id;
             });
         }
@@ -84,7 +83,7 @@ function ListingWorkoutsScreen({ route, navigation }) {
         {   user.Rol == "Especialista" &&
             <AddButton
                 onPress={() => allWorkouts ? 
-                                    navigation.navigate(routes.CREATE_WORKOUT, { Subtitulo: user.Nombre, RUTINA_USUARIOS_Email: user.Email }) 
+                                    navigation.navigate(routes.CREATE_WORKOUT, { Subtitulo: user.Nombre, USUARIOS_Email: user.Email }) 
                                     : 
                                     navigation.navigate(routes.ASSOCIATE, {email: user.Email, item: {RUTINA_rut_id: route.params.rut_id}})
                         } 

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Alert } from 'react-native';
 
 
+
 import colors from '../config/colors';
 import Text from '../components/Text';
 import Icon from '../components/Icon';
@@ -10,6 +11,7 @@ import workoutsApi from '../api/workouts';
 import prescriptionsApi from '../api/prescriptions';
 import routes from '../navigation/routes';
 import useAuth from '../auth/useAuth';
+import { ListItemSeparator } from '../components/lists';
 
 function WorkoutDetailsScreen({ route, navigation }) {
     const { workout, rut_id, onGoBack } = route.params;
@@ -58,17 +60,21 @@ function WorkoutDetailsScreen({ route, navigation }) {
 
     
     return (
-        <Screen style={{backgroundColor: colors.lightprimary, flex: 1}}>
-            <View style={styles.container}>
-                
-                <Text style={styles.title}>{workout.Nombre}</Text>
-                {user.Rol == "Especialista" && <Text style={styles.id}>{"ID:"+workout.ej_id}</Text>} 
-                <Text style={styles.description}>{"Estado de forma: "+workout.Estado_forma}</Text>
-                <Text style={styles.description}>{workout.Descripcion}</Text>
-                {workout.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista "+(workout.USUARIOS_Email ? workout.USUARIOS_Email:"")+": "+workout.Comentarios}</Text>}
-                
-                
+        <Screen style={styles.container}>
+
+            <Text style={styles.title}>{workout.Nombre}</Text>
+            <ListItemSeparator />
+            <View style={styles.miscellaneous}>
+                <Text style={styles.miscText}>{"Creado por: "+workout.Subtitulo+" - "+workout.USUARIOS_Email}</Text>
             </View>
+            {user.Rol == "Especialista" && <Text style={styles.id}>{"ID:"+workout.ej_id}</Text>}             
+
+            <Text style={styles.description}>{"Estado de forma: "+workout.Estado_forma}</Text>
+            <Text style={styles.description}>{workout.Descripcion}</Text>
+            {workout.Comentarios !== undefined && <Text style={styles.description}>{"Comentarios del especialista "+(workout.especialista_email ? "("+workout.especialista_email+")":"")+": "+workout.Comentarios}</Text>}
+            
+            
+
             {   
                 user.Rol == "Usuario" ?
                 (
@@ -116,9 +122,7 @@ function WorkoutDetailsScreen({ route, navigation }) {
                 </View>
                 )
             }
-            <View style={styles.miscellaneous}>
-                <Text style={styles.miscText}>{"Creado por: "+workout.Subtitulo+" - "+workout.RUTINA_USUARIOS_Email}</Text>
-            </View>
+            
         </Screen>
             
     );
@@ -126,14 +130,12 @@ function WorkoutDetailsScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         padding: 20,
         paddingTop:10,
         backgroundColor: colors.white,
-        height: "90%",
-        borderBottomEndRadius: 1000,
     },
     title: {
-        marginBottom: 20,
         fontWeight: "bold",
         fontSize: 30,
         width: "70%",
@@ -147,12 +149,14 @@ const styles = StyleSheet.create({
         color: colors.secondary,
     },
     miscellaneous: {
-        position: "absolute",
-        left: 15,
-        bottom: 25,
+        position: "relative",
+        top: 15,
+        marginBottom: 20,
     },
     miscText: {
         fontWeight: "bold",
+        fontStyle:"italic",
+        fontSize: 15,
     },
     description: {
         marginTop: 15,

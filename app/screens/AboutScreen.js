@@ -41,7 +41,7 @@ function AboutScreen(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.lightprimary,
+        backgroundColor: colors.white,
     },
     info:{
         position: "absolute",

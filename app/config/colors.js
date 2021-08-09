@@ -13,4 +13,5 @@ export default {
     lightred: "indianred",
     gold: "goldenrod",
     lightprimary: "lightsteelblue",
+    indigo: "indigo",
 }

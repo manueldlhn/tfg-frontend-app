@@ -56,7 +56,6 @@ function ListingUsersScreen({ navigation }) {
                 <UserCard
                     Email={item.Email}
                     Nombre={item.Nombre}
-                    Enabled={item.Enabled}
                     Rol={item.Rol}
                     onPress = { () => navigation.navigate(routes.USER_DETAILS, item)}
                 />

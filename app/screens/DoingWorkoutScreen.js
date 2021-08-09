@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, StatusBar, TouchableWithoutFeedback } from 'react-native';
 import { Stopwatch } from 'react-native-stopwatch-timer';
 import * as TaskManager from 'expo-task-manager';
-import * as BackgroundFetch from 'expo-background-fetch';
 import { getPreciseDistance } from 'geolib';
+import {WebView } from "react-native-webview";
 
 
 import Location from '../sensors/location';
@@ -153,12 +153,25 @@ function DoingWorkoutScreen ({ route, navigation }) {
             <View style={styles.description}>
                 <Text style={[styles.text, {fontSize: 12, textAlign: "justify"}]}>{workout.Descripcion+"\n\n"+workout.Comentarios}</Text>
             </View>
-            { (workout.Ubicacion || workout.Podomentro) &&
-            <View style={styles.sensors}>
-                {workout.Ubicacion && <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>{"Distancia recorrida:\t\t"+distance.toString()+" metros\n"}</Text>}
-                {workout.Podometro && <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>{"Pasos:\t\t"+wk_info.Pasos}</Text>}
-            </View>
-            }
+            { (workout.Ubicacion || workout.Podomentro) ?
+            (    
+                <View style={styles.sensors}>
+                    {workout.Ubicacion && <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>{"Distancia recorrida:\t\t"+distance.toString()+" metros\n"}</Text>}
+                    {workout.Podometro && <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>{"Pasos:\t\t"+wk_info.Pasos}</Text>}
+                </View>
+            ):(
+                workout.Video ?
+                (
+                    <WebView 
+                        style={styles.video}
+                        javaScriptEnabled={true}
+                        domStorageEnabled={true}
+                        source={{uri: workout.Video}}
+                    />
+                ) : (
+                    <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>Este ejercicio no tiene link a ningún video explicativo.</Text>
+                )
+            )}
             <TouchableWithoutFeedback onPress={() => stopWorkout()}>
                 <View style={styles.button}>
                     <Icon 
@@ -210,6 +223,14 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: colors.gold,
         borderRadius: 20,
+    },
+    video: {
+        position: "absolute",
+        bottom: "20%",
+        left: "10%",
+        flex: 0,
+        height: 200,
+        width: "80%",
     },
     button: {
         position: "absolute",

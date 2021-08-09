@@ -12,7 +12,7 @@ const validationSchema = Yup.object().shape({
     Subtitulo: Yup.string().required().max(200).label("Subtitulo"),
     Descripcion: Yup.string().required().max(1000).label("Descripcion"),
     Estado_forma: Yup.string().required().max(10).label("Estado_forma"),
-    RUTINA_USUARIOS_Email: Yup.string().required().max(45).email().label("RUTINA_USUARIOS_Email")
+    USUARIOS_Email: Yup.string().required().max(45).email().label("USUARIOS_Email")
 })
 
 
@@ -45,9 +45,10 @@ function CreateWorkoutScreen({ route, navigation }) {
                         Subtitulo: params.Subtitulo ,
                         Descripcion: params.Descripcion ? params.Descripcion : "", 
                         Estado_forma: params.Estado_forma ? params.Estado_forma : "",
-                        RUTINA_USUARIOS_Email: params.RUTINA_USUARIOS_Email,
+                        USUARIOS_Email: params.USUARIOS_Email,
                         Ubicacion: params.Ubicacion ? true : false,
                         Podometro: params.Podometro ? true : false,
+                        Video: params.Video ? params.Video : "",
                     }}
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
@@ -79,7 +80,7 @@ function CreateWorkoutScreen({ route, navigation }) {
                         placeholder="Estado de Forma"
                     />
                     <FormField 
-                        name="RUTINA_USUARIOS_Email"
+                        name="USUARIOS_Email"
                         autoCorrect={false}
                         autoCapitalize="none"
                         placeholder="Correo Electrónico"
@@ -93,6 +94,12 @@ function CreateWorkoutScreen({ route, navigation }) {
                     <Checkbox 
                         title="Podómetro"
                         name="Podometro"
+                    />
+                    <FormField
+                        name="Video"
+                        autoCorrect={false}
+                        autoCapitalize={false}
+                        placeholder="Link del Video"
                     />
 
                     <SubmitButton title="Crear Ejercicio" color={"secondary"} />

@@ -6,14 +6,14 @@ import Icon from '../Icon';
 import Text from '../Text';
 
 
-function UserCard({ Email, Nombre, Enabled, Rol, onPress }) {
+function UserCard({ Email, Nombre, Rol, onPress }) {
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.card}>
                 <Icon 
                     name={Rol=="Especialista"? "account-tie" : "account"} 
-                    iconColor={Enabled ? (Rol=="Especialista" ? colors.primary : colors.secondary ) : colors.grey} 
-                    backgroundColor={Enabled ? colors.lightgreen : colors.lightgrey}/>
+                    iconColor={(Rol=="Especialista" ? colors.primary : colors.secondary )} 
+                    backgroundColor={colors.lightgreen}/>
                 <View style={styles.info}>
                     <Text style={styles.name}>{Nombre}</Text>
                     <Text style={styles.email}>{Email}</Text>
