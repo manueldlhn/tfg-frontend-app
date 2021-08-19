@@ -1,7 +1,13 @@
+/* ---------------------------
+ *    Nombre del fichero: WorkoutDetailsScreen.js
+ *    Descripción: Este fichero contiene la vista de detalles de ejercicio.        
+ *    Contenido:
+ *          - WorkoutDetailsScreen: Función que define el aspecto y comportamiento de la pantalla.        
+ * ---------------------------  
+ */
+
 import React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Alert } from 'react-native';
-
-
 
 import colors from '../config/colors';
 import Text from '../components/Text';
@@ -13,14 +19,45 @@ import routes from '../navigation/routes';
 import useAuth from '../auth/useAuth';
 import { ListItemSeparator } from '../components/lists';
 
+
+/* --------------------------
+ *    Nombre de la Función: WorkoutDetailsScreen
+ *    Funcionamiento: Renderiza la pantalla de detalles de ejercicio y regula el comportamiento
+ *                    de los botones.
+ *    Argumentos que recibe: Objeto que contiene:
+ *                                  - route: Objeto ruta. Contiene los parámetros recibidos de la vista anterior.
+ *                                  - navigation: Objeto navegación. Servirá para cambiar de vista.
+ *    Devuelve: La pantalla renderizada.
+ * --------------------------
+ */
 function WorkoutDetailsScreen({ route, navigation }) {
+    // Extraemos los parámetros de route
     const { workout, rut_id, onGoBack } = route.params;
+    // Obtenemos el usuario de useAuth.
     const {user} = useAuth();
-    console.log(workout);
+
+    /* --------------------------
+    *    Nombre de la Función: handleDelete
+    *    Funcionamiento: Solicita confirmación ante de eliminar el ejercicio
+    *    Argumentos que recibe: 
+    *                   - ej_id: Identificador de ejercicio.
+    *                   - rut_id: Identificador de rutina (si procede).
+    *    Devuelve: Nada (void).
+    * --------------------------
+    */
     const handleDelete = (ej_id, rut_id) => {
-        console.log(rut_id);
+        
+        /* --------------------------
+        *    Nombre de la Función: proceedDeletion
+        *    Funcionamiento: Una vez confirmado por el especialista, se envía la solicitud a la API.
+        *    Argumentos que recibe: 
+        *                   - EJERCICIO_ej_id: identificador de ejercicio.
+        *                   - RUTINA_rut_id: identificador de rutina.
+        *    Devuelve: Mensaje de alert si ha habido error, nada en caso contrario.
+        * --------------------------
+        */
         const proceedDeletion = async (EJERCICIO_ej_id, RUTINA_rut_id) => {
-            
+            // Dependiendo de si se accede desde ejercicios de rutina o no, la petición a la API se hace por métodos distintos.
             const result = RUTINA_rut_id === null 
                             ? 
                             await workoutsApi.deleteWorkout(EJERCICIO_ej_id)
@@ -33,7 +70,7 @@ function WorkoutDetailsScreen({ route, navigation }) {
             onGoBack();
             navigation.goBack();
         };
-
+        // Confirmación de borrado.
         Alert.alert(
             "Confirmación",
             rut_id ?

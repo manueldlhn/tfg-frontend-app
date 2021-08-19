@@ -1,3 +1,11 @@
+/* ---------------------------
+ *    Nombre del fichero: AboutScreen.js
+ *    Descripción: Este fichero contiene la vista de "Acerca de".        
+ *    Contenido:        
+ *          - AboutScreen: Función que renderiza la vista de "Acerca de".
+ * ---------------------------  
+ */
+
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
@@ -5,7 +13,15 @@ import Screen from '../components/Screen';
 import Text from '../components/Text';
 import colors from '../config/colors';
 
-function AboutScreen(props) {
+
+/* --------------------------
+ *    Nombre de la Función: AboutScreen
+ *    Funcionamiento: Renderiza la vista de "Acerca de".
+ *    Argumentos que recibe: Ninguno
+ *    Devuelve: La vista renderizada.
+ * --------------------------
+ */
+function AboutScreen() {
     return (
         <Screen style={styles.container}>
             <View style={styles.info}>

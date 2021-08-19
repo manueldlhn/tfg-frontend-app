@@ -1,3 +1,15 @@
+/* ---------------------------
+ *    Nombre del fichero: storage.js
+ *    Descripción: Este fichero contiene las funciones necesarias para
+ *                 operar con el token (JWT) del usuario.       
+ *    Contenido:
+ *          - storeToken: Función encargada de almacenar el token.
+ *          - getToken: Función para obtener el token.
+ *          - getUser: Función que extrae el usuario del token.
+ *          - removeToken: Función que elimina el token.        
+ * ---------------------------  
+ */
+
 import * as SecureStore from 'expo-secure-store';
 import jwtDecode from 'jwt-decode';
 

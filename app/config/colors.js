@@ -1,4 +1,12 @@
+/* ---------------------------
+ *    Nombre del fichero: colors.js 
+ *    Descripción: Contiene los nombres de colores utilizados en la app.        
+ *    Contenido: Objeto que recoge los colores.        
+ * ---------------------------  
+ */
+
 export default {
+    // Formato: nombre_a_usar_en_la_app: "nombre_que_reconoce_react_native",
     white: "white",
     black: "black",
     grey: "grey",

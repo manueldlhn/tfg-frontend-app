@@ -1,4 +1,12 @@
-import React, { useEffect, useState } from 'react';
+/* ---------------------------
+ *    Nombre del fichero: AccountNavigator.js
+ *    Descripción: Este fichero contiene el Navigator del conjunto de vistas relacionadas con "Mi cuenta".        
+ *    Contenido: 
+ *          - AccountNavigator: Función que define la estructura del navegador.       
+ * ---------------------------  
+ */
+
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import AccountScreen from '../screens/AccountScreen';
@@ -11,11 +19,19 @@ import AboutScreen from '../screens/AboutScreen';
 const Stack = createStackNavigator();
 
 
-
+/* --------------------------
+ *    Nombre de la Función: AccountNavigator
+ *    Funcionamiento: Define la estructura del navegador de "Mi cuenta".
+ *    Argumentos que recibe: Ninguno.
+ *    Devuelve: El navigator en sí.
+ * --------------------------
+ */
 const AccountNavigator = () => (
+    // Definimos el navigator
     <Stack.Navigator
         mode="modal"
     >
+        {/* Con Stack.Screen se añaden todas las vistas que compondrán el navegador. */}
         <Stack.Screen 
             name="Yo" 
             component={AccountScreen}

@@ -1,7 +1,15 @@
-import React, { useContext, useState } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+/* ---------------------------
+ *    Nombre del fichero: LoginScreen.js
+ *    Descripción: Este fichero contiene la pantalla del formulario de login.        
+ *    Contenido:  
+ *          - LoginScreen: Función que renderiza la vista de login y regula su comportamiento
+ *                         ante ciertos eventos.      
+ * ---------------------------  
+ */
+
+import React, { useState } from 'react';
+import { StyleSheet, Image } from 'react-native';
 import * as Yup from "yup";
-import jwtDecode from 'jwt-decode';
 
 
 import { ErrorMessage, Form, FormField, SubmitButton } from '../components/forms';
@@ -10,25 +18,54 @@ import colors from '../config/colors';
 import authApi from '../api/auth';
 import useAuth from '../auth/useAuth';
 
+
+/* --------------------------
+ *    Nombre: validationSchema
+ *    Descripción: Este objeto impone las restricciones de los campos
+ *                 del formulario para que se pueda proceder al submit.
+ * -------------------------- 
+ */
 const validationSchema = Yup.object().shape({
     Email: Yup.string().required().email().label("Email"),
     Password: Yup.string().required().min(4).label("Password"),
 });
 
-
-function LoginScreen(props) {
+/* --------------------------
+ *    Nombre de la Función: LoginScreen
+ *    Funcionamiento: Define la vista y el comportamiento del fomrulario de Login.
+ *    Argumentos que recibe: Ninguno
+ *    Devuelve: La pantalla renderizada.
+ * --------------------------
+ */
+function LoginScreen() {
+    // Obtenemos el objeto auth de useAuth.
     const auth = useAuth();
+    // HOOKS
+    // Para gestionar el fallo en login
     const [loginFailed, setLoginFailed] = useState(false);
+    // Para gestionar errores.
     const [error, setError] = useState('');
 
+
+    /* --------------------------
+    *    Nombre de la Función: handleSubmit
+    *    Funcionamiento: Se encarga de extraer la información de los campos y enviarla al servidor.
+    *    Argumentos que recibe: Objeto que contiene
+    *                               - Email: Dirección de correo del usuario
+    *                               - Password: Contraseña del usuario.
+    *    Devuelve: Si no ha habido error, nada. Si ha habido un error, devuelve un mensaje de alert.
+    * --------------------------
+    */
     const handleSubmit = async ({Email, Password}) => {
+        // Realizamos la petición a la API.
         const result = await authApi.login(Email, Password);
-        if(!result.ok || !result.data.ok) {
+        if(!result.ok || !result.data.ok) { // Si ha habido algún problema:
             setLoginFailed(true);
             return setError(result.data.message);
-        }
+        } // En otro caso: 
         setLoginFailed(false);
         setError('');
+        // Hacemos el login en la app
         auth.logIn(result.data.accessToken);
     }
     return (

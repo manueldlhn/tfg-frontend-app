@@ -1,3 +1,11 @@
+/* ---------------------------
+ *    Nombre del fichero: RoutineNavigator.js
+ *    Descripción: Este fichero contiene el Navegador del conjunto de vistas relacionadas con "Rutinas"       
+ *    Contenido: 
+ *          - RoutineNavigator: Función que define la estructura del navegador.       
+ * ---------------------------  
+ */
+
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -13,10 +21,20 @@ import AssociateScreen from '../screens/AssociateScreen';
 
 const Stack = createStackNavigator();
 
+
+/* --------------------------
+ *    Nombre de la Función: RoutineNavigator
+ *    Funcionamiento: Define la estructura del navegador de "Rutinas".
+ *    Argumentos que recibe: Ninguno.
+ *    Devuelve: El navigator en sí.
+ * --------------------------
+ */
 const RoutineNavigator = () => (
+    // Definimos el navigator
     <Stack.Navigator
         mode="modal"
     >
+        {/* Con Stack.Screen se añaden todas las vistas que compondrán el navegador. */}
         <Stack.Screen 
             name="ListingRoutines" 
             component={ListingRoutinesScreen}

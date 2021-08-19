@@ -1,14 +1,29 @@
+/* ---------------------------
+ *    Nombre del fichero: MyDetailsScreen.js
+ *    Descripción: Este fichero contiene la vista de "Modificar datos personales".        
+ *    Contenido: 
+ *          - MyDetailsScreen: Función que renderiza la pantalla y regula el comportamiento
+ *                             del formulario.        
+ * ---------------------------  
+ */
+
 import React, { useContext } from 'react';
 import { StyleSheet, Alert } from 'react-native';
 import * as Yup from 'yup';
 
 import Screen from '../components/Screen';
-import colors from '../config/colors';
 import { Form, FormField, SubmitButton } from '../components/forms';
 import usersApi from '../api/users';
 import routes from '../navigation/routes';
 import AuthContext from '../auth/context';
 
+
+/* --------------------------
+ *    Nombre: validationSchema
+ *    Descripción: Este objeto impone las restricciones de los campos
+ *                 del formulario para que se pueda proceder al submit.
+ * -------------------------- 
+ */
 const validationSchema = Yup.object().shape({
     Nombre: Yup.string().required().label("Nombre"),
     Fecha_Nacimiento: Yup.date().required().label("Fecha_Nacimiento"),
@@ -17,26 +32,58 @@ const validationSchema = Yup.object().shape({
     Password: Yup.string().required().min(4).label("Password")
 });
 
+
+/* --------------------------
+ *    Nombre de la Función: MyDetailsScreen
+ *    Funcionamiento: Define la vista y el comportamiento del formulario
+ *                    de modificar datos personales.
+ *    Argumentos que recibe: Objeto que contiene:
+ *                              - navigation: Objeto de navegación, para cambiar de pantalla.
+ *    Devuelve: La vista renderizada.
+ * --------------------------
+ */
 function MyDetailsScreen({navigation}) {
+    // Hook para poder modificar el usuario tras enviar los datos.
     const {user, setUser } = useContext(AuthContext);
 
+    /* --------------------------
+    *    Nombre de la Función: proceedUpdate
+    *    Funcionamiento: Se modifican en user aquellos datos que haya cambiado el usuario en el formulario.
+    *                    Se envía la información a la API y se gestiona la respuesta.
+    *    Argumentos que recibe: 
+    *               - values: Objeto con los valores de los campos del formulario.
+    *    Devuelve: Si ha habido error, mensaje de alert. Si no, nada.
+    * --------------------------
+    */
     const proceedUpdate = async (values) => {
+        // Para cada elemento de user, se modifica con los datos del formulario.
         Object.keys(user).forEach(key => {
             if(values[key]) user[key] = values[key];
         });
-
+        // Se envía la información a la API
         const result = await usersApi.updateUser(user);
         
+        // En caso de error, se informa y se sale.
         if(!result.ok || !result.data.ok) return alert(result.data.message);
-       
+        // Actualizamos usuario en local.
         setUser(user);
         alert(result.data.message);
+        // Volvemos a "Mi cuenta".
         navigation.reset({
             index: 0,
             routes: [{ name: routes.MY_ACCOUNT }]
         });
     };
 
+
+    /* --------------------------
+    *    Nombre de la Función: handleSubmit
+    *    Funcionamiento: Se encarga de Solicitar confirmación y llamar a la función proceedUpdate.
+    *    Argumentos que recibe: 
+    *           - values: Objeto con los valores de los campos del formulario.
+    *    Devuelve: Nada (void).
+    * --------------------------
+    */
     const handleSubmit = async(values) => {
         Alert.alert(
             "Confirmación",

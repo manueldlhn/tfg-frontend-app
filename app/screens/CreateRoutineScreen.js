@@ -1,3 +1,12 @@
+/* ---------------------------
+ *    Nombre del fichero: CreateRoutineScreen.js 
+ *    Descripción: Este fichero contiene la vista de "Crear/Modificar Rutina".        
+ *    Contenido: 
+ *          - CreateRoutineScreen: Función que renderiza la vista de "Crear/Modificar rutina" y su
+ *                                 comportamiento ante ciertos eventos.     
+ * ---------------------------  
+ */
+
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import * as Yup from "yup";
@@ -7,6 +16,13 @@ import { Form, FormField, SubmitButton } from "../components/forms";
 import routinesApi from '../api/routines';
 import routes from "../navigation/routes";
 
+
+/* --------------------------
+ *    Nombre: validationSchema
+ *    Descripción: Este objeto impone las restricciones de los campos
+ *                 del formulario para que se pueda proceder al submit.
+ * -------------------------- 
+ */
 const validationSchema = Yup.object().shape({
     Nombre: Yup.string().required().max(100).label("Nombre"),
     Descripcion: Yup.string().required().max(1000).label("Descripcion"),
@@ -16,15 +32,33 @@ const validationSchema = Yup.object().shape({
 
 
 
-
+/* --------------------------
+ *    Nombre de la Función: CreateRoutineScreen
+ *    Funcionamiento: Define la vista y el comportamiento del formulario
+ *                    de crear o modificar una rutina.
+ *    Argumentos que recibe: Objeto que contiene:
+ *                              - route: Objeto ruta, se empleará para extraer los parámetros.
+ *                              - navigation: Objeto de navegación, para cambiar de pantalla.
+ *    Devuelve: La vista renderizada.
+ * --------------------------
+ */
 function CreateRoutineScreen({ route, navigation }) {
+    // Extraemos los parámetros de route
     params = route.params;
 
+    /* --------------------------
+    *    Nombre de la Función: handleSubmit
+    *    Funcionamiento: Se encarga de extraer la información de los campos y enviarla al servidor.
+    *    Argumentos que recibe: 
+    *           - values: Objeto con los valores de los campos del formulario.
+    *    Devuelve: Si no ha habido error, nada. Si ha habido un error, devuelve un mensaje de alert.
+    * --------------------------
+    */
     const handleSubmit = async (routine) => {
-        
+        // Si existe rut_id en los parámetros de route, se sobrescribe el valor del formulario.
         if( "rut_id" in params)
             routine.rut_id = params.rut_id;
-
+        // Cargamos los datos en el servidor por medio de la API. OJO
         const result = await ("rut_id" in routine ?  routinesApi.updateRoutine(routine) : routinesApi.createRoutine(routine));
         
         if(!result.ok)

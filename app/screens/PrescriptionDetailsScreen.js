@@ -1,3 +1,11 @@
+/* ---------------------------
+ *    Nombre del fichero: PrescriptionDetailsScreen.js
+ *    Descripción: Este fichero contiene la vista de detalles de prescripción.        
+ *    Contenido:
+ *          - PrescriptionDetailsScreen: Función que define el aspecto y comportamiento de la pantalla.        
+ * ---------------------------  
+ */
+
 import React from 'react';
 import { View, StyleSheet, Alert, TouchableWithoutFeedback } from 'react-native';
 
@@ -8,14 +16,46 @@ import routes from '../navigation/routes';
 import prescriptionsApi from '../api/prescriptions';
 import Screen from '../components/Screen';
 
+
+/* --------------------------
+ *    Nombre de la Función: PrescriptionDetailsScreen
+ *    Funcionamiento: Renderiza la pantalla de detalles de prescripción y regula el comportamiento
+ *                    de los botones.
+ *    Argumentos que recibe: Objeto que contiene:
+ *                                  - route: Objeto ruta. Contiene los parámetros recibidos de la vista anterior.
+ *                                  - navigation: Objeto navegación. Servirá para cambiar de vista.
+ *    Devuelve: La pantalla renderizada.
+ * --------------------------
+ */
 function PrescriptionDetailsScreen({route, navigation}) {
+    // Extraemos los parámetros de route
     const { type, item, usuario_email, onGoBack } = route.params;
 
     item.usuario_email = usuario_email;
 
+
+    /* --------------------------
+    *    Nombre de la Función: handleDelete
+    *    Funcionamiento: Solicita confirmación ante de eliminar la prescripción
+    *    Argumentos que recibe: 
+    *                   - id: Identificador de ejercicio o rutina, según corresponda.
+    *                   - email: email del usuario al que se ha prescrito.
+    *    Devuelve: Nada (void).
+    * --------------------------
+    */
     const handleDelete = (id, email) => {
         
+        /* --------------------------
+        *    Nombre de la Función: proceedDeletion
+        *    Funcionamiento: Una vez confirmado por el especialista, se envía la solicitud a la API.
+        *    Argumentos que recibe: 
+        *                   - id: identificador de ejercicio o rutina, según corresponda.
+        *                   - email: email del usuario al que se ha prescrito.
+        *    Devuelve: Mensaje de alert si ha habido error, nada en caso contrario.
+        * --------------------------
+        */
         const proceedDeletion = async (id, email) => {
+            // Si el tipo (de prescripción) es rutina, la petición se hace por rutina. Si no, es por ejercicio.
             const result = type=="Rutina" ? await prescriptionsApi.deleteRoutineFromUser(id,email) : await prescriptionsApi.deleteWorkoutFromUser(id, email);
             if(!result.ok)
                 return alert(result.data.message);
@@ -23,7 +63,7 @@ function PrescriptionDetailsScreen({route, navigation}) {
             onGoBack();
             navigation.goBack();        
         };
-
+        // Confirmación de borrado.
         Alert.alert(
             "Confirmación",
             "¿Seguro que desea borrar este registro?",

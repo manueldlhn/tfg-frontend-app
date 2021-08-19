@@ -1,9 +1,31 @@
+/* ---------------------------
+ *    Nombre del fichero: PrescriptionCard.js
+ *    Descripción: Este fichero contiene el componente de la tarjeta de Prescripción,
+ *                 así como la lógica que incorpora.       
+ *    Contenido:
+ *          - PrescriptionCard: Función que recoge el aspecto y funcionamiento de la tarjeta en cuestión.        
+ * ---------------------------  
+ */
+
 import React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
 import colors from '../../config/colors';
 import Icon from '../Icon';
 import Text from '../Text';
+
+/* --------------------------
+ *    Nombre de la Función: PrescriptionCard
+ *    Funcionamiento: Renderiza la vista de la tarjeta y define su comportamiento ante ciertos eventos.
+ *    Argumentos que recibe: Objeto que contiene:
+ *                              - type: Tipo de la prescripción (Rutina, Ejercicio).
+ *                              - id: Identificador del elemento prescrito.
+ *                              - Nombre: Nombre del elemento prescrito.
+ *                              - Comentarios: Comentarios del especialista que prescribe.
+ *                              - onPress: Función a ejecutarse cuando se pulsa en la tarjeta.
+ *    Devuelve: El componente renderizado.
+ * --------------------------
+ */
 
 
 function PrescriptionCard({ type, id, Nombre, Comentarios, onPress }) {

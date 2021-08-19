@@ -1,4 +1,12 @@
-import React, { useContext } from 'react';
+/* ---------------------------
+ *    Nombre del fichero: AccountScreen.js
+ *    Descripción: Este fichero contiene la vista de "Mi cuenta".        
+ *    Contenido: 
+ *          - AccountScreen: Función que renderiza la vista de "Mi cuenta".        
+ * ---------------------------  
+ */
+
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import ListItem from '../components/lists/ListItem';
@@ -9,10 +17,18 @@ import colors from '../config/colors';
 import routes from '../navigation/routes';
 import useAuth from '../auth/useAuth';
 
-
+/* --------------------------
+ *    Nombre de la Función: AccountScreen
+ *    Funcionamiento: Renderiza la vista de "Mi cuenta".
+ *    Argumentos que recibe: Objeto que contiene:
+ *                              - navigation: Objeto de navegación para cambiar de pantalla.
+ *    Devuelve: La vista renderizada.
+ * --------------------------
+ */
 function AccountScreen({ navigation }) {
+    
+    // Obtenemos el objeto usuario y la función logOut de useAuth.
     const { user, logOut } = useAuth();
-
 
     return (
         <Screen

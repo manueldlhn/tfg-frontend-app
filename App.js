@@ -1,3 +1,11 @@
+/* ---------------------------
+ *    Nombre del fichero: App.js
+ *    Descripción: Este es el fichero principal de la app.        
+ *    Contenido: 
+ *        - App: Función "main" de la aplicación.       
+ * ---------------------------  
+ */
+
 import React, { useState } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
@@ -8,11 +16,29 @@ import AppNavigator from './app/navigation/AppNavigator';
 import AuthContext from './app/auth/context';
 import authStorage from './app/auth/storage';
 
-export default function App() {
 
+
+/* --------------------------
+ *    Nombre de la Función: App
+ *    Funcionamiento: Define el funcionamiento general de la App, implementando los navigators.
+ *    Argumentos que recibe: Ninguno
+ *    Devuelve: La aplicación en sí.
+ * --------------------------
+ */
+
+export default function App() {
+  // Controlamos el usuario con un hook
   const [user, setUser] = useState();
+
   const [isReady, setIsReady] = useState(false);
 
+  /* --------------------------
+  *    Nombre de la Función: restoreToken
+  *    Funcionamiento: Obtiene el Token y el Usuario de authStorage
+  *    Argumentos que recibe: Ninguno
+  *    Devuelve: Nada (void).
+  * --------------------------
+  */
   const restoreToken = async () => {
     const token = await authStorage.getToken();
     if(!token) return;

@@ -1,8 +1,27 @@
+/* ---------------------------
+ *    Nombre del fichero: WelcomeScreen.js
+ *    Descripción: Este fichero contiene la pantalla de bienvenida de la APP.        
+ *    Contenido:
+ *          - WelcomeScreen: Función que define la vista y el comportamiento de la pantalla.     
+ * ---------------------------  
+ */
+
 import React from 'react';
 import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+
 import Button from '../components/Button';
 import colors from '../config/colors';
 
+
+/* --------------------------
+ *    Nombre de la Función: WelcomeScreen
+ *    Funcionamiento: Renderiza la pantalla
+ *    Argumentos que recibe: Objeto que contiene:
+ *                              - navigation: Objeto de navegación. Se utilizará para cambiar de pantalla
+ *                                            al pulsar en los botones.
+ *    Devuelve: La pantalla renderizada.
+ * --------------------------
+ */
 function WelcomeScreen({navigation}) {
     return (
         <ImageBackground 

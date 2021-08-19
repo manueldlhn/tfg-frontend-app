@@ -1,5 +1,13 @@
+/* ---------------------------
+ *    Nombre del fichero: UserDetailsScreen.js
+ *    Descripción: Este fichero contiene la vista de detalles de usuario.        
+ *    Contenido:
+ *          - UserDetailsScreen: Función que define el aspecto y comportamiento de la pantalla.        
+ * ---------------------------  
+ */
+
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import colors from '../config/colors';
 import Icon from '../components/Icon';
@@ -9,7 +17,19 @@ import Button from '../components/Button';
 import routes from '../navigation/routes';
 import { ListItemSeparator } from '../components/lists';
 
+
+/* --------------------------
+ *    Nombre de la Función: UserDetailsScreen
+ *    Funcionamiento: Renderiza la pantalla de detalles de usuario y regula el comportamiento
+ *                    de los botones.
+ *    Argumentos que recibe: Objeto que contiene:
+ *                                  - route: Objeto ruta. Contiene los parámetros recibidos de la vista anterior.
+ *                                  - navigation: Objeto navegación. Servirá para cambiar de vista.
+ *    Devuelve: La pantalla renderizada.
+ * --------------------------
+ */
 function UserDetailsScreen({ route, navigation }) {
+    // Extraemos los parámetros de route
     const user = route.params;
     return (
         <Screen style={styles.container}>

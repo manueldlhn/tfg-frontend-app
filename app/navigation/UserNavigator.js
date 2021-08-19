@@ -1,3 +1,11 @@
+/* ---------------------------
+ *    Nombre del fichero: UserNavigator.js
+ *    Descripción: Este fichero contiene el Navigator del conjunto de vistas relacionadas con "Usuarios".        
+ *    Contenido: 
+ *          - UserNavigator: Función que define la estructura del navegador.       
+ * ---------------------------  
+ */
+
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -12,10 +20,20 @@ import ListingRecordsScreen from '../screens/ListingRecordsScreen';
 
 const Stack = createStackNavigator();
 
+
+/* --------------------------
+ *    Nombre de la Función: UserNavigator
+ *    Funcionamiento: Define la estructura del navegador de "Usuarios".
+ *    Argumentos que recibe: Ninguno.
+ *    Devuelve: El navigator en sí.
+ * --------------------------
+ */
 const UserNavigator = () => (
+    // Definimos el navigator
     <Stack.Navigator
         mode="modal"
     >
+        {/* Con Stack.Screen se añaden todas las vistas que compondrán el navigator. */}
         <Stack.Screen 
             name="ListingUsers" 
             component={ListingUsersScreen}

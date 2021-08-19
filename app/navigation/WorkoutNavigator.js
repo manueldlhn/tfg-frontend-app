@@ -1,3 +1,11 @@
+/* ---------------------------
+ *    Nombre del fichero: WorkoutNavigator.js
+ *    Descripción: Este fichero contiene el Navigator del conjunto de vistas relacionadas con "Ejercicios".        
+ *    Contenido: 
+ *          - WorkoutNavigator: Función que define la estructura del navegador.       
+ * ---------------------------  
+ */
+
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -11,10 +19,20 @@ import DoingWorkoutScreen from '../screens/DoingWorkoutScreen';
 
 const Stack = createStackNavigator();
 
+
+/* --------------------------
+ *    Nombre de la Función: WorkoutNavigator
+ *    Funcionamiento: Define la estructura del navegador de "Ejercicios".
+ *    Argumentos que recibe: Ninguno.
+ *    Devuelve: El navigator en sí.
+ * --------------------------
+ */
 const WorkoutNavigator = () => (
+    // Definimos el navegador
     <Stack.Navigator
         mode="modal"
     >
+        {/* Con Stack.Screen se añaden todas las vistas que compondrán el navigator. */}
         <Stack.Screen 
             name="ListingWorkouts" 
             component={ListingWorkoutsScreen}

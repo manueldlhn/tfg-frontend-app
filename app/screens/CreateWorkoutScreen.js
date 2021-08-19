@@ -1,3 +1,12 @@
+/* ---------------------------
+ *    Nombre del fichero: CreateWorkoutScreen.js 
+ *    Descripción: Este fichero contiene la vista de "Crear/Modificar Ejercicio".        
+ *    Contenido: 
+ *          - CreateWorkoutScreen: Función que renderiza la vista de "Crear/Modificar ejercicio" y su
+ *                                 comportamiento ante ciertos eventos.     
+ * ---------------------------  
+ */
+
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import * as Yup from "yup";
@@ -7,6 +16,13 @@ import { Form, FormField, SubmitButton, Checkbox } from "../components/forms";
 import workoutsApi from '../api/workouts';
 import routes from "../navigation/routes";
 
+
+/* --------------------------
+ *    Nombre: validationSchema
+ *    Descripción: Este objeto impone las restricciones de los campos
+ *                 del formulario para que se pueda proceder al submit.
+ * -------------------------- 
+ */
 const validationSchema = Yup.object().shape({
     Nombre: Yup.string().required().max(100).label("Nombre"),
     Subtitulo: Yup.string().required().max(200).label("Subtitulo"),
@@ -15,16 +31,35 @@ const validationSchema = Yup.object().shape({
     USUARIOS_Email: Yup.string().required().max(45).email().label("USUARIOS_Email")
 })
 
-
+/* --------------------------
+ *    Nombre de la Función: CreateWorkoutScreen
+ *    Funcionamiento: Define la vista y el comportamiento del formulario
+ *                    de crear o modificar un ejercicio.
+ *    Argumentos que recibe: Objeto que contiene:
+ *                              - route: Objeto ruta, se empleará para extraer los parámetros.
+ *                              - navigation: Objeto de navegación, para cambiar de pantalla.
+ *    Devuelve: La vista renderizada.
+ * --------------------------
+ */
 function CreateWorkoutScreen({ route, navigation }) {
+    // Extraemos los parámetros de route
     params = route.params;
 
-    const handleSubmit = async (workout) => {
 
+    /* --------------------------
+    *    Nombre de la Función: handleSubmit
+    *    Funcionamiento: Se encarga de extraer la información de los campos y enviarla al servidor.
+    *    Argumentos que recibe: 
+    *           - workout: Objeto con los valores de los campos del formulario.
+    *    Devuelve: Si no ha habido error, nada. Si ha habido un error, devuelve un mensaje de alert.
+    * --------------------------
+    */
+    const handleSubmit = async (workout) => {
+        // Si existe ej_id en los parámetros de route, se sobrescribe el valor del formulario
         if("ej_id" in params)
             workout.ej_id = params.ej_id;
 
-        
+        // Cargamos los datos en el servidor por medio de la API. OJO
         const result = await("ej_id" in workout ? workoutsApi.updateWorkout(workout) : workoutsApi.createWorkout(workout));
         
         if(!result.ok)

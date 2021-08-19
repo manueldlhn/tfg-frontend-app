@@ -1,3 +1,11 @@
+/* ---------------------------
+ *    Nombre del fichero: RoutineDetailsScreen.js
+ *    Descripción: Este fichero contiene la vista de detalles de rutina.        
+ *    Contenido:
+ *          - RoutineDetailsScreen: Función que define el aspecto y comportamiento de la pantalla.        
+ * ---------------------------  
+ */
+
 import React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Alert } from 'react-native';
 
@@ -13,11 +21,40 @@ import Button from '../components/Button';
 import { ListItemSeparator } from '../components/lists';
 
 
+/* --------------------------
+ *    Nombre de la Función: RoutineDetailsScreen
+ *    Funcionamiento: Renderiza la pantalla de detalles de rutina y regula el comportamiento
+ *                    de los botones.
+ *    Argumentos que recibe: Objeto que contiene:
+ *                                  - route: Objeto ruta. Contiene los parámetros recibidos de la vista anterior.
+ *                                  - navigation: Objeto navegación. Servirá para cambiar de vista.
+ *    Devuelve: La pantalla renderizada.
+ * --------------------------
+ */
 function RoutineDetailsScreen({ route, navigation }) {
+    // Extraemos los parámetros de route
     const routine = route.params;
+    // Obtenemos el usuario de useAuth
     const { user } = useAuth();
 
+    /* --------------------------
+    *    Nombre de la Función: handleDelete
+    *    Funcionamiento: Solicita confirmación ante de eliminar la rutina
+    *    Argumentos que recibe: 
+    *                   - rut_id: Identificador de rutina.
+    *    Devuelve: Nada (void).
+    * --------------------------
+    */
     const handleDelete = (rut_id) => {
+
+        /* --------------------------
+        *    Nombre de la Función: proceedDeletion
+        *    Funcionamiento: Una vez confirmado por el especialista, se envía la solicitud a la API.
+        *    Argumentos que recibe: 
+        *                   - rut_id: identificador de rutina.
+        *    Devuelve: Mensaje de alert si ha habido error, nada en caso contrario.
+        * --------------------------
+        */
         const proceedDeletion = async (rut_id) => {
             const result = await routinesApi.deleteRoutine(rut_id);
 
@@ -29,7 +66,7 @@ function RoutineDetailsScreen({ route, navigation }) {
                 routes: [{ name: routes.LISTING_ROUTINES }]
             });
         }
-
+        // Confirmación de borrado.
         Alert.alert(
             "Confirmación",
             "Está a punto de eliminar una rutina. "+
