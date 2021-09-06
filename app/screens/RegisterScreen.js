@@ -8,7 +8,7 @@
  */
 
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Alert } from "react-native";
 import * as Yup from "yup";
 
 import Screen from "../components/Screen";
@@ -55,7 +55,7 @@ function RegisterScreen({navigation}) {
         const result = await authApi.register(user);
         // Informamos con la respuesta.
         const info = result.ok ? result.data.message : "Ha habido un error al realizar el registro";
-        alert(info);
+        Alert.alert("Error en el registro",info);
 
         // Volvemos a la pantalla de bienvenida.
         result.data.ok && navigation.reset({

@@ -8,7 +8,7 @@
  */
 
 import React from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Alert } from "react-native";
 import * as Yup from "yup";
 
 import Screen from "../components/Screen";
@@ -62,8 +62,8 @@ function CreateRoutineScreen({ route, navigation }) {
         const result = await ("rut_id" in routine ?  routinesApi.updateRoutine(routine) : routinesApi.createRoutine(routine));
         
         if(!result.ok)
-            return alert(result.data.message);
-        alert("Rutina almacenada con éxito");
+            return Alert.alert("Error",result.data.message);
+        Alert.alert("Éxito","Rutina almacenada con éxito");
         navigation.reset({
             index: 0,
             routes: [{ name: routes.LISTING_ROUTINES }]

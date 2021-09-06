@@ -8,13 +8,14 @@
  */
 
 import React from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Alert } from "react-native";
 import * as Yup from "yup";
 
 import Screen from "../components/Screen";
 import { Form, FormField, SubmitButton, Checkbox } from "../components/forms";
 import workoutsApi from '../api/workouts';
 import routes from "../navigation/routes";
+import formatVideoUrl from "../video/formatVideoUrl";
 
 
 /* --------------------------
@@ -58,13 +59,15 @@ function CreateWorkoutScreen({ route, navigation }) {
         // Si existe ej_id en los parámetros de route, se sobrescribe el valor del formulario
         if("ej_id" in params)
             workout.ej_id = params.ej_id;
+        
+        workout.Video = formatVideoUrl(workout.Video);
 
         // Cargamos los datos en el servidor por medio de la API. OJO
         const result = await("ej_id" in workout ? workoutsApi.updateWorkout(workout) : workoutsApi.createWorkout(workout));
         
         if(!result.ok)
-            return alert(result.data.message);
-        alert("Ejercicio almacenado con éxito");
+            return Alert.alert("Error",result.data.message);
+        Alert.alert("Éxito","Ejercicio almacenado con éxito");
         navigation.reset({
             index: 0,
             routes: [{ name: routes.LISTING_WORKOUTS }]

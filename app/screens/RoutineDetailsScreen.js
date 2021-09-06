@@ -59,8 +59,8 @@ function RoutineDetailsScreen({ route, navigation }) {
             const result = await routinesApi.deleteRoutine(rut_id);
 
             if(!result.ok)
-                return alert(result.data.message);
-            alert(result.data.message);
+                return Alert.alert("Error","Ha habido un error en el proceso.");
+            Alert.alert("Información",result.data.message);
             navigation.reset({
                 index: 0,
                 routes: [{ name: routes.LISTING_ROUTINES }]

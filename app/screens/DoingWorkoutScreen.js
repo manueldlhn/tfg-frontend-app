@@ -9,15 +9,17 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, StatusBar, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, StatusBar, TouchableWithoutFeedback, Alert } from 'react-native';
 import { Stopwatch } from 'react-native-stopwatch-timer';
 import * as TaskManager from 'expo-task-manager';
 import { getPreciseDistance } from 'geolib';
 import {WebView } from "react-native-webview";
+import { useKeepAwake } from 'expo-keep-awake';
 
 
 import Location from '../sensors/location';
-import Gfit from '../sensors/gfit';
+//import Pedometer from '../sensors/pedometer';
+import Pedometer from '../sensors/accelStepCounter';
 import mqtt from '../mqtt/mqtt';
 import recordsApi from '../api/records';
 import Screen from '../components/Screen';
@@ -69,9 +71,10 @@ function DoingWorkoutScreen ({ route, navigation }) {
     workout.Ubicacion && (wk_info.Distancia = distance);
     workout.Podometro && (wk_info.Pasos = steps);
 
+    useKeepAwake(); // Esto evitará que la pantalla se apague.
     // Hook useEffect que se ejecuta una vez al principio, para comenzar el ejercicio.
     useEffect(()=> {
-        console.log("Empezamos ejercicio");
+        if(workout.Podometro) Alert.alert("Importante", "Como este ejercicio hace uso del podómetro, se ruega no apague la pantalla ni salga de la aplicación para garantizar la recopilación de información.");
         setStartChrono(true);
         setStartTime(Date.now());
         mqttClient = mqtt.getClient({client_id: user.Email}); // Es publicador, no enviamos función de callback para recibir mensajes
@@ -79,6 +82,7 @@ function DoingWorkoutScreen ({ route, navigation }) {
         Location.subscribeToLocationUpdates(UPDATE_TASK_NAME, workout.Ubicacion);
         
         if(workout.Podometro){
+            Pedometer.subscribeToStepUpdates();
             setSteps(0);
         }
 
@@ -100,6 +104,7 @@ function DoingWorkoutScreen ({ route, navigation }) {
 
         // Detener la recepción periódica de datos.
         await Location.unSuscribeToLocationUpdates(UPDATE_TASK_NAME);
+        if(workout.Podometro) Pedometer.unSuscribeToStepUpdates();
         setStartChrono(false); // Paramos el temporizador.
         updateWorkoutTime(); // Última ejecución
         wk_info.Ultimo_msg = true;
@@ -164,9 +169,7 @@ function DoingWorkoutScreen ({ route, navigation }) {
                 location = {latitude, longitude};
             }
             if(workout.Podometro){ // Si procede, se actualizan los pasos
-                const stepResult = Gfit.getSteps(startTime);
-                console.log("stepResult: "+stepResult);
-                //if(!stepResult.error) setSteps(steps => steps + stepResult.data);
+                setSteps(Pedometer.getSteps());
             }
             // Actualizamos el temporizador
             updateWorkoutTime();
@@ -287,10 +290,10 @@ const styles = StyleSheet.create({
     video: {
         position: "absolute",
         bottom: "20%",
-        left: "10%",
+        left: "00%",
         flex: 0,
-        height: 200,
-        width: "80%",
+        height: 250,
+        width: "100%",
     },
     button: {
         position: "absolute",

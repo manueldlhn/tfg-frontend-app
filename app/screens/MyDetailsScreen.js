@@ -64,10 +64,10 @@ function MyDetailsScreen({navigation}) {
         const result = await usersApi.updateUser(user);
         
         // En caso de error, se informa y se sale.
-        if(!result.ok || !result.data.ok) return alert(result.data.message);
+        if(!result.ok || !result.data.ok) return Alert.alert("Error",result.data.message);
         // Actualizamos usuario en local.
         setUser(user);
-        alert(result.data.message);
+        Alert.alert("Éxito",result.data.message);
         // Volvemos a "Mi cuenta".
         navigation.reset({
             index: 0,
@@ -85,9 +85,19 @@ function MyDetailsScreen({navigation}) {
     * --------------------------
     */
     const handleSubmit = async(values) => {
+        var formattedValues = '';
+        Object.keys(values).forEach( (key) => {
+            if(key != "Password"){
+                const newValue = key+": "+values[key]+"\n";
+                formattedValues = formattedValues.concat(newValue);
+            }
+        });
+        console.log(formattedValues);
+
+
         Alert.alert(
             "Confirmación",
-            "¿Son correctos los valores que ha proporcionado?\n"+JSON.stringify(values),
+            "¿Son correctos los valores que ha proporcionado?\n"+formattedValues,
             [
                 {
                     text: "No",

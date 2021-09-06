@@ -8,11 +8,11 @@
  */
 
 import React, { useState } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, Alert } from 'react-native';
 import * as Yup from "yup";
 
 
-import { ErrorMessage, Form, FormField, SubmitButton } from '../components/forms';
+import { Form, FormField, SubmitButton } from '../components/forms';
 import Screen from '../components/Screen';
 import colors from '../config/colors';
 import authApi from '../api/auth';
@@ -40,12 +40,6 @@ const validationSchema = Yup.object().shape({
 function LoginScreen() {
     // Obtenemos el objeto auth de useAuth.
     const auth = useAuth();
-    // HOOKS
-    // Para gestionar el fallo en login
-    const [loginFailed, setLoginFailed] = useState(false);
-    // Para gestionar errores.
-    const [error, setError] = useState('');
-
 
     /* --------------------------
     *    Nombre de la Función: handleSubmit
@@ -59,14 +53,15 @@ function LoginScreen() {
     const handleSubmit = async ({Email, Password}) => {
         // Realizamos la petición a la API.
         const result = await authApi.login(Email, Password);
-        if(!result.ok || !result.data.ok) { // Si ha habido algún problema:
-            setLoginFailed(true);
-            return setError(result.data.message);
-        } // En otro caso: 
-        setLoginFailed(false);
-        setError('');
-        // Hacemos el login en la app
-        auth.logIn(result.data.accessToken);
+        console.log(result.data);
+        if(!result.ok) { // Ha habido un error ajeno al proceso de comprobación.
+            return Alert.alert("Error","Ha habido un error al iniciar sesión. Pruebe más tarde.");
+        } else if (!result.data.ok) { // Credenciales incorrectas.
+            return Alert.alert("Credenciales incorrectas",result.data.message);
+        } else { // Todo bien
+            console.log("Entramos aquí acaso?");
+            auth.logIn(result.data.accessToken);
+        }
     }
     return (
         <Screen style={styles.container}>
@@ -79,7 +74,6 @@ function LoginScreen() {
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema}
             >
-                <ErrorMessage error={error} visible={loginFailed} /> 
                 <FormField 
                     autoCapitalize="none"
                     autoCorrect={false}

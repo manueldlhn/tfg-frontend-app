@@ -9,7 +9,7 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { StyleSheet, FlatList, RefreshControl, Alert } from 'react-native';
 
 import prescriptionsApi from '../api/prescriptions';
 import useAuth from '../auth/useAuth';
@@ -18,6 +18,7 @@ import PrescriptionCard from '../components/cards/PrescriptionCard';
 import Screen from '../components/Screen';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
+import Text from '../components/Text';
 
 
 /* --------------------------
@@ -63,10 +64,10 @@ function ListingUserPerscriptionsScreen({ route, navigation }) {
         // Si el tipo de prescripción es rutina, solicitará rutinas. Si es ejercicio, ejercicios.
         const response = type=="Rutina" ? await prescriptionsApi.getRoutinesFromUser(email, offset) : await prescriptionsApi.getWorkoutsFromUser(email, offset);
         
-        // Si el usuario no tiene prescripciones del tipo solicitado, se lanza un mensaje de alert, a modo informativo. OJO
+        // Si el usuario no tiene prescripciones del tipo solicitado, se lanza un mensaje de alert, a modo informativo
         if(data.length + response.data.length == 0){
-            alert("Este usuario no tiene "+type+"s entre sus prescripciones.");
-            navigation.goBack(); // Se debería mantener ahí con botón de añadir prescripción?
+            Alert.alert("No hay datos","Este usuario no tiene "+type+"s entre sus prescripciones. Pulse el botón (+) de abajo para prescribir.");
+            
         } else { // Se actualiza datos y offset.
             setData(data => data.concat(response.data));
             setOffset(offset => offset + response.data.length);
@@ -110,7 +111,9 @@ function ListingUserPerscriptionsScreen({ route, navigation }) {
     
     return (
         <Screen style={styles.container}>
+            <Text style={styles.prescribed}>{"A usuario: "+email}</Text>
             <FlatList
+                style={styles.list}
                 data={data}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -139,6 +142,15 @@ const styles = StyleSheet.create({
     container: {
         padding: 10,
         backgroundColor: colors.lightprimary,
+    },
+    prescribed: {
+        backgroundColor: colors.white,
+        margin: -10,
+        padding: 10,
+        fontWeight: 'bold',
+    },
+    list: {
+        marginTop: 20
     }
 })
 

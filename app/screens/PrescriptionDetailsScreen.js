@@ -58,8 +58,8 @@ function PrescriptionDetailsScreen({route, navigation}) {
             // Si el tipo (de prescripción) es rutina, la petición se hace por rutina. Si no, es por ejercicio.
             const result = type=="Rutina" ? await prescriptionsApi.deleteRoutineFromUser(id,email) : await prescriptionsApi.deleteWorkoutFromUser(id, email);
             if(!result.ok)
-                return alert(result.data.message);
-            alert(result.data.message);
+                return Alert.alert("Error","Ha habido un error en el proceso.");
+            Alert.alert("Información",result.data.message);
             onGoBack();
             navigation.goBack();        
         };

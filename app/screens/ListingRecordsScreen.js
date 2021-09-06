@@ -7,7 +7,7 @@
  */
 
 import React, {useState, useEffect, useCallback} from 'react';
-import { FlatList, RefreshControl, StyleSheet } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, Alert } from 'react-native';
 
 
 import Screen from '../components/Screen';
@@ -71,7 +71,7 @@ function ListingRecordsScreen({ route, navigation }) {
     */
     const checkRecords = (records, data) => {
         if(records.length+data.length == 0){
-            alert("No existen registros de "+email+" en el historial.");
+            Alert.alert("No hay datos","No existen registros de "+email+" en el historial.");
             navigation.goBack();
         } else {
             setRecords(records => records.concat(data));

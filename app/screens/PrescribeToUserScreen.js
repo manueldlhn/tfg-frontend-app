@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Alert } from 'react-native';
 import * as Yup from "yup";
 
 import Screen from '../components/Screen';
@@ -74,8 +74,8 @@ function PrescribeToUserScreen({ route, navigation }){
                             );
 
         if(!result.ok)
-            return alert("Ha habido un error al subir la prescripción. Por favor compruebe que los datos son correctos.");
-        alert("Prescripción implementada con éxito");
+            return Alert.alert("Error","Ha habido un error al subir la prescripción. Por favor compruebe que los datos son correctos.");
+        Alert.alert("Éxito","Prescripción implementada con éxito");
         // Ejecutamos el callback antes de volver a una vista anterior.
         onPopTwo();
         "Comentarios" in data ? navigation.pop(2) : navigation.goBack();

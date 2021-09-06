@@ -7,7 +7,7 @@
  */
 
 import React, {useState, useEffect, useCallback } from 'react';
-import { StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { StyleSheet, FlatList, RefreshControl, Alert } from 'react-native';
 
 import Screen from '../components/Screen';
 import WorkoutCard from '../components/cards/WorkoutCard';
@@ -85,7 +85,7 @@ function ListingWorkoutsScreen({ route, navigation }) {
     */
     const checkWorkouts = (workouts, data) => {
         if(workouts.length+data.length == 0){
-            alert("Esta rutina no tiene ejercicios asociados. Para añadir uno, por favor utilice el botón (+) de abajo.");
+            Alert.alert("No hay datos","Esta rutina no tiene ejercicios asociados. Para añadir uno, por favor utilice el botón (+) de abajo.");
         } else {
             if(route.params.especialista_email != null) {
                 data.forEach(workout => {

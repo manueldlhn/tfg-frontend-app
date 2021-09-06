@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Alert } from 'react-native';
 import * as Yup from "yup";
 
 import Screen from '../components/Screen';
@@ -63,8 +63,8 @@ function AssociateScreen({ route, navigation }) {
         const result = await( (item.Comentarios !== undefined) ? prescriptionsApi.updateWorkoutFromRoutine(association) :  prescriptionsApi.prescribe_WR(association));
 
         if(!result.ok)
-            return alert("Ha habido un error al realizar la asociación. Por favor compruebe los datos que ha proporcionado");
-        alert("Asociación exitosa");
+            return Alert.alert("Error","Ha habido un error al realizar la asociación. Por favor compruebe los datos que ha proporcionado");
+        Alert.alert("Éxito","Asociación exitosa");
         
         // La función onPopTwo define qué deberá hacerse antes de volver atrás en la pila de navegación.
         onPopTwo();

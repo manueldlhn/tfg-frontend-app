@@ -65,8 +65,8 @@ function WorkoutDetailsScreen({ route, navigation }) {
                             await prescriptionsApi.deleteWorkoutFromRoutine(EJERCICIO_ej_id, RUTINA_rut_id);
 
             if(!result.ok)
-                return alert(result.data.message);
-            alert(result.data.message);
+                return Alert.alert("Error","Ha habido un error en el proceso.");
+            Alert.alert("Información",result.data.message);
             onGoBack();
             navigation.goBack();
         };
