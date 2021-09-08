@@ -69,7 +69,7 @@ function AccountScreen({ navigation }) {
                 }
                 <View style={styles.item}>
                     <ListItem
-                        title="Acerca de"
+                        title="Acerca de RemGym"
                         subTitle="Información relacionada con el desarrollo del servicio."
                         IconComponent={<Icon name="information-variant" backgroundColor={colors.secondary} />}
                         onPress={() => navigation.navigate(routes.ABOUT)}

@@ -33,7 +33,7 @@ function WelcomeScreen({navigation}) {
                 <Image 
                     source={require('../assets/logo.png')}
                     style={styles.logo}/>
-                <Text style={styles.tagline}>GYM ONLINE</Text>
+                <Text style={styles.tagline}>RemGym</Text>
             </View>
             <View style={styles.buttonsContainer}>
                 <Button

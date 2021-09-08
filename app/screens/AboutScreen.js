@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 
 import Screen from '../components/Screen';
 import Text from '../components/Text';
@@ -25,13 +25,16 @@ function AboutScreen() {
     return (
         <Screen style={styles.container}>
             <View style={styles.info}>
+                <Image 
+                    source={require('../assets/logo.png')}
+                    style={styles.logo}/>
                 <Text style={{
                     fontStyle:"italic",
                     textAlign: "center",
                     fontSize:20,
                 }}
                 >{
-                    "Servicio desarrollado como Trabajo de Fin de Grado.\n\n"+
+                    "RemGym es un servicio desarrollado como Trabajo de Fin de Grado.\n\n"+
                     "Autor: Manuel de la Haba Navarro\n"+
                     "Tutora del trabajo: Mª Teresa Ariza Gómez (Profesora Titular)\n\n"+
                     "Grado en Ingeniería de las Tecnologías de Telecomunicación\n"+
@@ -72,6 +75,13 @@ const styles = StyleSheet.create({
         padding:20,
         alignItems: "center",
         justifyContent:"center",
+    },
+    logo: {
+        height: 80,
+        width: 80,
+        alignSelf: "center",
+        marginTop: -20,
+        marginBottom: 20,
     }
 })
 

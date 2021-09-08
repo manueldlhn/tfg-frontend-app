@@ -67,7 +67,7 @@ function LoginScreen() {
         <Screen style={styles.container}>
             <Image 
                 style={styles.logo}
-                source={require('../assets/logo.png')} 
+                source={require('../assets/logo-inv.png')} 
             />
             <Form
                 initialValues={{Email:"", Password: ""}}
@@ -104,13 +104,11 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     logo:{
-        width: 80,
-        height: 80,
+        width: 100,
+        height: 100,
         alignSelf: 'center',
         marginTop: 50,
         marginBottom: 20,
-        backgroundColor: colors.primary,
-        borderRadius: 40,
     },
 })
 

@@ -81,7 +81,7 @@ const AccountNavigator = () => (
             component={AboutScreen}
             options={{
                 headerShown:true,
-                title: "Acerca de",
+                title: "Acerca de RemGym",
                 headerStyle: { backgroundColor: colors.primary },
                 headerTintColor: colors.white,
                 headerTitleAlign: 'center',

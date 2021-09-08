@@ -50,7 +50,7 @@ function LiveUserCard({ Usuario, Nombre_ej, Tiempo_ej, Ultimo_msg, Distancia, Pa
                 <View style={styles.info}>
                     <Text style={styles.user}>{Usuario}</Text>
                     <Text style={styles.nombre_ej}>{Nombre_ej}</Text>
-                    <View style={styles.sensorsView}> {/* Sólo se mostrará si la tarjeta está expandida */}
+                    <View style={styles.sensorsView}> 
                         {(expanded && Distancia != null) && <Text style={styles.sensors}>{"Distancia: "+Distancia+"m"}</Text>}
                         {(expanded && Pasos != null) && <Text style={styles.sensors}>{"Pasos: "+Pasos}</Text>}
                     </View>
