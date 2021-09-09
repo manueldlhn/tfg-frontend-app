@@ -53,13 +53,11 @@ function LoginScreen() {
     const handleSubmit = async ({Email, Password}) => {
         // Realizamos la petición a la API.
         const result = await authApi.login(Email, Password);
-        console.log(result.data);
         if(!result.ok) { // Ha habido un error ajeno al proceso de comprobación.
             return Alert.alert("Error","Ha habido un error al iniciar sesión. Pruebe más tarde.");
         } else if (!result.data.ok) { // Credenciales incorrectas.
-            return Alert.alert("Credenciales incorrectas",result.data.message);
+            return Alert.alert("Error",result.data.message);
         } else { // Todo bien
-            console.log("Entramos aquí acaso?");
             auth.logIn(result.data.accessToken);
         }
     }
