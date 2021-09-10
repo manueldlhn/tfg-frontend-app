@@ -34,7 +34,7 @@ const deleteRoutine = rut_id => client.delete(endpoint+'/'+rut_id);
 export default {
     createRoutine,
     getRoutines,
-    getRoutine,
+    // getRoutine, // En desuso
     updateRoutine,
     deleteRoutine,
 };

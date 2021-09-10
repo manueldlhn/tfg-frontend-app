@@ -33,7 +33,7 @@ const deleteWorkout = ej_id => client.delete(endpoint+'/'+ej_id);
 export default {
     createWorkout,
     getWorkouts,
-    getWorkout,
+    //getWorkout, // En desuso
     updateWorkout,
     deleteWorkout,
 };

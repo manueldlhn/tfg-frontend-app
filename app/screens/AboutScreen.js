@@ -39,7 +39,7 @@ function AboutScreen() {
                     "Tutora del trabajo: Mª Teresa Ariza Gómez (Profesora Titular)\n\n"+
                     "Grado en Ingeniería de las Tecnologías de Telecomunicación\n"+
                     "Escuela Técnica Superior de Ingeniería\n"+"Universidad de Sevilla\n\n\n"+
-                    "Contacto: manuel@alum.us.es\n\n\n"+
+                    "Contacto: mandenav@alum.us.es\n\n\n"+
                     "2021"
                 }</Text>
             </View>
