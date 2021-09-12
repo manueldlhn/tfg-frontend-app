@@ -51,6 +51,7 @@ function AboutScreen() {
                     fontSize:15 
                 }}
                 >
+                    El ejercicio físico debe ser realizado bajo la supervisión de un especialista.
                     La administración del servicio no se hace responsable del uso que se haga del mismo.
                 </Text>
             </View>

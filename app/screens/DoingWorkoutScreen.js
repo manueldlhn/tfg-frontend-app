@@ -219,8 +219,12 @@ function DoingWorkoutScreen ({ route, navigation }) {
             (workout.Ubicacion || workout.Podomentro) ?
             (    
                 <View style={styles.sensors}>
-                    {workout.Ubicacion && <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>{"Distancia recorrida:\t\t"+distance.toString()+" metros\n"}</Text>}
-                    {workout.Podometro && <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>{"Pasos:\t\t"+wk_info.Pasos}</Text>}
+                    <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>
+                    {
+                        (workout.Ubicacion ? "Distancia recorrida:\t\t"+distance.toString()+" metros\n\n" : "") +
+                        (workout.Podometro ? "Pasos:\t\t"+wk_info.Pasos : "")
+                    }
+                    </Text>
                 </View>
             ):( // En otro caso, se mostrará un video para el ejercicio en estático.
                 workout.Video ?
@@ -232,7 +236,7 @@ function DoingWorkoutScreen ({ route, navigation }) {
                         source={{uri: workout.Video}}
                     />
                 ) : (
-                    <Text style={[styles.text, {color: colors.gold, fontWeight: "bold"}]}>Este ejercicio no tiene link a ningún video explicativo.</Text>
+                    <Text style={[styles.sensors, {color: colors.gold, fontWeight: "bold"}]}>Este ejercicio no tiene link a ningún video explicativo.</Text>
                 )
             )}
             <TouchableWithoutFeedback onPress={() => stopWorkout()}>

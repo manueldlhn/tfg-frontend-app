@@ -16,7 +16,7 @@
  */
 
 export default {
-    SERVER_URL: 'http://localhost:3000',
+    SERVER_URL: 'http://dry-citadel-41083.herokuapp.com',
     MQTT_HOST: 'broker.hivemq.com',
     MQTT_PORT: 8000,
     MQTT_PUBLISH_FREQ: 5,
